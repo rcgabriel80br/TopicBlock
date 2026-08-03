@@ -2,252 +2,123 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
     <title>TopicBlock</title>
-
     <link rel="stylesheet" href="popup.css">
-
 </head>
 
 <body>
-
-<div class="container">
-
-    <header>
-
-        <h1>🛡 TopicBlock</h1>
-        <span class="version">v0.3</span>
-
-    </header>
-
-
-    <!-- FILTRO GERAL -->
-
-    <section class="card">
-
-        <div class="sectionTitle">
-            Filtro Geral
-        </div>
-
-        <label class="switch">
-
-            <input
-                type="checkbox"
-                id="toggle"
-            >
-
-            <span class="slider"></span>
-
-        </label>
-
-<div
-    id="toggleText"
-    class="toggleText"
->
-    Ativado
-</div>
-
-<button
-    id="showUnfilteredPage"
-    class="secondary page-action"
->
-    👁 Ver página original
-</button>
-
-    </section>
-
-
-
-    <!-- GRUPOS -->
-
-    <section class="card">
-
-        <div class="sectionTitle">
-            Grupos
-        </div>
-
-        <div id="groupList"></div>
-
-    </section>
-
-
-
-    <!-- PALAVRAS PERSONALIZADAS -->
-
-    <section class="card">
-
-        <div class="sectionTitle">
-
-            Palavras personalizadas
-
-            <span id="wordCount"></span>
-
-        </div>
-
-        <ul id="wordList"></ul>
-
-    </section>
-
-
-
-    <!-- NOVA PALAVRA -->
-
-    <section class="card">
-
-        <div class="sectionTitle">
-            Nova palavra
-        </div>
-
-        <input
-            id="newWord"
-            type="text"
-            placeholder="Digite uma palavra..."
-        >
-
-        <button
-            id="addWord"
-            class="primary"
-        >
-            Adicionar
+    <div class="container">
+        <header>
+            <h1>🛡 TopicBlock</h1>
+            <span class="version">v0.3</span>
+        </header>
+        <!-- FILTRO GERAL -->
+        <section class="card">
+            <div class="sectionTitle">
+                Filtro Geral
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="toggle">
+                <span class="slider"></span>
+            </label>
+            <div id="toggleText" class="toggleText">
+                Ativado
+            </div>
+            <button id="showUnfilteredPage" class="secondary page-action">
+                👁 Ver página original
+            </button>
+        </section>
+        <!-- GRUPOS -->
+        <section class="card">
+            <div class="sectionTitle">
+                Grupos
+            </div>
+            <div id="groupList"></div>
+        </section>
+        <!-- PALAVRAS PERSONALIZADAS -->
+        <section class="card">
+            <div class="sectionTitle">
+                Palavras personalizadas
+                <span id="wordCount"></span>
+            </div>
+            <ul id="wordList"></ul>
+        </section>
+        <!-- NOVA PALAVRA -->
+        <section class="card">
+            <div class="sectionTitle">
+                Nova palavra
+            </div>
+            <input id="newWord" type="text" placeholder="Digite uma palavra...">
+            <button id="addWord" class="primary">
+                Adicionar
+            </button>
+        </section>
+        <!-- HIBERNADOS -->
+        <section class="card">
+            <div class="sectionTitle">
+                Hibernados
+                <span id="hibernateCount"></span>
+            </div>
+            <button id="clearExpired" class="secondary">
+                Limpar expirados
+            </button>
+            <ul id="hibernateList" class="hibernateList"></ul>
+        </section>
+        <!-- NOVA HIBERNAÇÃO -->
+        <section class="card">
+            <div class="sectionTitle">
+                Nova hibernação
+            </div>
+            <input id="hibernateWord" type="text" placeholder="Digite uma palavra...">
+            <div class="buttonRow">
+                <button id="hibernate7" class="primary">
+                    7 dias
+                </button>
+                <button id="hibernate15" class="primary">
+                    15 dias
+                </button>
+                <button id="hibernate30" class="primary">
+                    30 dias
+                </button>
+            </div>
+        </section>
+        <!-- SITES IGNORADOS -->
+        <section class="card">
+            <div class="sectionTitle">
+                Sites ignorados
+                <span id="ignoredSitesCount"></span>
+            </div>
+            <ul id="ignoredSitesList"></ul>
+            <input id="newIgnoredSite" type="text" placeholder="chatgpt.com">
+            <button id="addIgnoredSite" class="primary">
+                Adicionar
+            </button>
+        </section>
+        <!-- ESTATÍSTICAS -->
+        <section class="card">
+            <div class="sectionTitle">
+                Estatísticas
+            </div>
+            <div>
+                Nesta sessão:
+                <strong id="blockedSession">
+                    0
+                </strong>
+            </div>
+            <div>
+                Total bloqueado:
+                <strong id="blockedTotal">
+                    0
+                </strong>
+            </div>
+        </section>
+        <!-- RESTAURAR PADRÕES -->
+        <button id="resetWords" class="danger">
+            Restaurar padrões
         </button>
-
-    </section>
-
-
-    <!-- HIBERNADOS -->
-
-    <section class="card">
-
-        <div class="sectionTitle">
-
-            Hibernados
-
-            <span id="hibernateCount"></span>
-
-        </div>
-
-        <button
-            id="clearExpired"
-            class="secondary"
-        >
-            Limpar expirados
-        </button>
-
-        <ul id="hibernateList" class="hibernateList"></ul>
-
-    </section>
-
-
-    <!-- NOVA HIBERNAÇÃO -->
-
-    <section class="card">
-
-        <div class="sectionTitle">
-            Nova hibernação
-        </div>
-
-        <input
-            id="hibernateWord"
-            type="text"
-            placeholder="Digite uma palavra..."
-        >
-
-        <div class="buttonRow">
-
-            <button
-                id="hibernate7"
-                class="primary"
-            >
-                7 dias
-            </button>
-
-            <button
-                id="hibernate15"
-                class="primary"
-            >
-                15 dias
-            </button>
-
-            <button
-                id="hibernate30"
-                class="primary"
-            >
-                30 dias
-            </button>
-
-        </div>
-
-    </section>
-
-
-<!-- SITES IGNORADOS -->
-
-<section class="card">
-
-    <div class="sectionTitle">
-
-        Sites ignorados
-
-        <span id="ignoredSitesCount"></span>
-
     </div>
-
-    <ul id="ignoredSitesList"></ul>
-
-    <input
-        id="newIgnoredSite"
-        type="text"
-        placeholder="chatgpt.com"
-    >
-
-    <button
-        id="addIgnoredSite"
-        class="primary"
-    >
-        Adicionar
-    </button>
-
-</section>
-
-<!-- ESTATÍSTICAS -->
-
-<section class="card">
-
-    <div class="sectionTitle">
-        Estatísticas
-    </div>
-
-    <div>
-        Nesta sessão:
-        <strong id="blockedSession">
-            0
-        </strong>
-    </div>
-
-    <div>
-        Total bloqueado:
-        <strong id="blockedTotal">
-            0
-        </strong>
-    </div>
-
-</section>
-
-    <!-- RESTAURAR PADRÕES -->
-
-    <button
-        id="resetWords"
-        class="danger"
-    >
-        Restaurar padrões
-    </button>
-
-
-</div>
-
-<script type="module" src="popup.js"></script>
-
+    <script type="module" src="popup.js"></script>
 </body>
 
 </html>

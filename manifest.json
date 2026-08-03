@@ -3,26 +3,21 @@
   "name": "TopicBlock",
   "description": "Bloqueie conteúdos indesejados em diversos sites.",
   "version": "0.3.0",
-
   "permissions": [
     "storage",
     "tabs"
   ],
-
   "host_permissions": [
     "<all_urls>"
   ],
-
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
-
   "action": {
     "default_popup": "popup/popup.html",
     "default_title": "TopicBlock"
   },
-
   "content_scripts": [
     {
       "matches": [
@@ -39,7 +34,6 @@
       "run_at": "document_idle"
     }
   ],
-
   "icons": {
     "16": "assets/icons/icon16.png",
     "32": "assets/icons/icon32.png",
