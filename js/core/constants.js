@@ -38,7 +38,10 @@ export const DEFAULT_GROUPS = {
             "joão gulherme",
             "jojo todynho",
             "gustavo tubarão",
-            "luciano huck"
+            "luciano huck",
+            "márcia sensitiva",
+            "gretchen",
+            "nick frazão"
         ]
     },
     musica: {
@@ -72,7 +75,8 @@ export const DEFAULT_GROUPS = {
             "vídeo vazado",
             "video vazado",
             "orgasmo",
-            "prazer sexual"
+            "prazer sexual",
+            "pornô"
         ]
     },
     funk: {
