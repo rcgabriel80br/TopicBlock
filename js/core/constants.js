@@ -1,7 +1,5 @@
-export const EXTENSION_VERSION = "0.3.0";
 export const STORAGE_KEYS = {
-    SETTINGS: "topicblock_settings",
-    TOPICS: "topicblock_topics"
+    SETTINGS: "topicblock_settings"
 };
 export const GROUP_LABELS = {
     influencers: "Influenciadores",
@@ -118,4 +116,4 @@ export const DEFAULT_GROUPS = {
         enabled: true,
         words: []
     }
-}
+};
