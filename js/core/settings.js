@@ -6,7 +6,7 @@ export const DEFAULT_SETTINGS = {
     ignoredSites: [
         "google.com",
         "chatgpt.com",
-        "wikipedia.com",
+        "wikipedia.org",
         "outlook.live.com",
         "web.whatsapp.com"
     ],
