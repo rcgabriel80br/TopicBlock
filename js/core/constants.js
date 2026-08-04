@@ -1,6 +1,5 @@
 export const STORAGE_KEYS = {
-    SETTINGS: "topicblock_settings",
-    TOPICS: "topicblock_topics"
+    SETTINGS: "topicblock_settings"
 };
 export const GROUP_LABELS = {
     influencers: "Influenciadores",
