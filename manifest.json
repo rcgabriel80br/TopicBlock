@@ -26,7 +26,8 @@
       "js": [
         "content/filter.js",
         "content/observer.js",
-        "content.js"
+        "content.js",
+        "content/revealed-highlight.js"
       ],
       "run_at": "document_idle"
     }
