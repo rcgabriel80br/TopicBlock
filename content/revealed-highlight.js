@@ -21,13 +21,23 @@ document.addEventListener(
 
         setTimeout(() => {
             if (
-                blockedElement.dataset.topicblockExcluded !== "1" ||
-                blockedElement.classList.contains(
-                    "topicblock-blocked"
-                )
+                blockedElement.dataset.topicblockExcluded !== "1"
             ) {
                 return;
             }
+
+            delete blockedElement.dataset.topicblockLocked;
+
+            blockedElement.classList.remove(
+                "topicblock-blocked"
+            );
+
+            const restoredLabel =
+                blockedElement.querySelector(
+                    ".topicblock-show-content"
+                )?.parentElement;
+
+            restoredLabel?.remove();
 
             blockedElement.dataset.topicblockRevealed = "1";
             blockedElement.style.backgroundColor = "yellow";
