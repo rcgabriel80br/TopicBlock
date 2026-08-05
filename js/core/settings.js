@@ -8,7 +8,8 @@ export const DEFAULT_SETTINGS = {
         "chatgpt.com",
         "wikipedia.org",
         "outlook.live.com",
-        "web.whatsapp.com"
+        "web.whatsapp.com",
+        "claude.ai"
     ],
     groups: DEFAULT_GROUPS
 };

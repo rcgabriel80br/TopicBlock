@@ -41,7 +41,10 @@ export const DEFAULT_GROUPS = {
             "luciano huck",
             "márcia sensitiva",
             "gretchen",
-            "nick frazão"
+            "nick frazão",
+            "tirullipa",
+            "perez hilton",
+            "deborah secco"
         ]
     },
     musica: {
@@ -76,7 +79,9 @@ export const DEFAULT_GROUPS = {
             "video vazado",
             "orgasmo",
             "prazer sexual",
-            "pornô"
+            "pornô",
+            "genderless",
+            "lgbt"
         ]
     },
     funk: {
