@@ -18,7 +18,7 @@ class Observer {
                     mutation.addedNodes.forEach(node => {
                         if (node.nodeType === 1) {
                             const text =
-                                node.innerText || "";
+                                node.textContent || "";
                             if (
                                 text.toLowerCase().includes("neymar")
                             ) {
