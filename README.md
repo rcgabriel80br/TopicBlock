@@ -1,14 +1,37 @@
 # TopicBlock
 
-TopicBlock é uma extensão para Google Chrome que ajuda a tornar a leitura de portais e sites de notícias mais limpa e personalizada.
+*Navegue sem distrações.*
 
-A extensão identifica conteúdos relacionados a assuntos ou pessoas que o usuário não deseja acompanhar e substitui esses conteúdos por um bloco visual discreto.
+TopicBlock é uma extensão gratuita para Google Chrome que torna a leitura de portais e sites de notícias mais limpa, tranquila e personalizada.
 
-## Objetivo
+Não gosta de determinado assunto? *Bloqueie.*
 
-Portais de notícias frequentemente repetem os mesmos assuntos durante vários dias. O TopicBlock permite reduzir esse excesso de conteúdo sem bloquear o site inteiro.
+Cansou de ver a mesma notícia viralizada? *Hiberne o assunto por alguns dias.*
 
-O usuário continua acessando normalmente seus portais preferidos, mas escolhe quais temas não deseja visualizar.
+Você continua acessando normalmente seus sites preferidos, mas escolhe quais conteúdos merecem a sua atenção.
+
+## Por que usar o TopicBlock?
+
+Portais de notícias frequentemente repetem os mesmos assuntos durante vários dias. Outros conteúdos podem simplesmente não fazer parte dos interesses do usuário.
+
+O TopicBlock ajuda a reduzir esse excesso sem bloquear o acesso ao site inteiro.
+
+* Navegação mais limpa e personalizada
+* Menos notícias repetitivas ou viralizadas
+* Bloqueios permanentes ou temporários
+* Ícone discreto no navegador
+* Controle total do usuário
+* Sem monitoramento da navegação
+* Sem venda de dados
+* Sempre gratuito
+
+## Como funciona
+
+O TopicBlock identifica conteúdos relacionados a assuntos, palavras ou pessoas que o usuário não deseja acompanhar.
+
+Quando encontra um termo configurado, a extensão oculta o card correspondente e o substitui por um bloco visual discreto.
+
+O conteúdo não é removido do site e pode ser revelado pelo usuário a qualquer momento.
 
 ## Principais funcionalidades
 
@@ -16,13 +39,13 @@ O usuário continua acessando normalmente seus portais preferidos, mas escolhe q
 
 As palavras bloqueadas são organizadas em grupos, como:
 
-- Influenciadores
-- Música
-- Conteúdo adulto
-- Funk
-- BBB
-- Palavras personalizadas
-- Assuntos hibernados
+* Influenciadores
+* Música
+* Conteúdo adulto
+* Funk
+* BBB
+* Palavras personalizadas
+* Assuntos hibernados
 
 Cada grupo pode ser ativado ou desativado individualmente.
 
@@ -32,13 +55,15 @@ O usuário pode adicionar seus próprios termos de bloqueio.
 
 Quando uma notícia contém um desses termos, o TopicBlock identifica o card correspondente e oculta seu conteúdo.
 
+Não gosta de determinado assunto? Adicione uma palavra e deixe o TopicBlock cuidar do restante.
+
 ### Hibernação de assuntos
 
 Um assunto pode ser bloqueado temporariamente por 7, 15 ou 30 dias.
 
-Esse recurso é útil para temas que dominam o noticiário durante um período, mas que não precisam ser bloqueados permanentemente.
+Esse recurso é útil para notícias e temas que dominam o noticiário durante determinado período, mas que não precisam ser bloqueados permanentemente.
 
-Após o prazo definido, o assunto deixa de ser bloqueado automaticamente.
+Após o prazo escolhido, o assunto deixa de ser bloqueado automaticamente.
 
 ### Sites ignorados
 
@@ -48,13 +73,13 @@ Isso permite manter a extensão instalada e ativa sem interferir em páginas esp
 
 ### Ver página original
 
-O botão **Ver página original** recarrega a página atual temporariamente sem aplicar os filtros do TopicBlock.
+O botão *Ver página original* recarrega temporariamente a página atual sem aplicar os filtros do TopicBlock.
 
 A próxima página acessada volta a utilizar os filtros normalmente.
 
 ### Exibir conteúdo bloqueado
 
-Cada notícia bloqueada apresenta a opção **Exibir conteúdo bloqueado**.
+Cada notícia bloqueada apresenta a opção *Exibir conteúdo bloqueado*.
 
 Ao selecionar essa opção, o conteúdo original é restaurado e permanece destacado com fundo amarelo, indicando que foi inicialmente bloqueado e posteriormente revelado pelo usuário.
 
@@ -62,27 +87,48 @@ Ao selecionar essa opção, o conteúdo original é restaurado e permanece desta
 
 O TopicBlock utiliza três estados visuais:
 
-- **Conteúdo normal:** mantém a aparência original do site.
-- **Conteúdo bloqueado:** é substituído por um bloco cinza.
-- **Conteúdo revelado:** volta a ser exibido com fundo amarelo.
+* *Conteúdo normal:* mantém a aparência original do site.
+* *Conteúdo bloqueado:* é substituído por um bloco cinza discreto.
+* *Conteúdo revelado:* volta a ser exibido com fundo amarelo.
 
 ## Estatísticas
 
 O popup da extensão apresenta:
 
-- quantidade de conteúdos bloqueados na sessão atual;
-- total histórico de conteúdos bloqueados.
+* quantidade de conteúdos bloqueados na sessão atual;
+* total histórico de conteúdos bloqueados.
 
-## Instalação para desenvolvimento
+## Privacidade
 
-1. Baixe ou clone este repositório.
-2. Abra o Chrome.
-3. Acesse `chrome://extensions/`.
-4. Ative o **Modo do desenvolvedor**.
-5. Clique em **Carregar sem compactação**.
-6. Selecione a pasta do TopicBlock.
+O TopicBlock foi desenvolvido para filtrar conteúdos, não para monitorar usuários.
 
-Após alterações no código, volte à página de extensões e clique em **Recarregar**.
+As configurações da extensão são mantidas no armazenamento local do Chrome.
+
+A extensão analisa o conteúdo exibido na página atual somente para identificar os termos configurados pelo próprio usuário.
+
+O TopicBlock:
+
+* não monitora o histórico de navegação;
+* não cria perfis de navegação;
+* não vende dados dos usuários.
+
+## Uso corporativo e customizações
+
+O TopicBlock também pode ser adaptado para empresas, instituições de ensino e outros ambientes que desejem reduzir distrações durante o trabalho ou estudo — sem monitorar a atividade dos usuários.
+
+Projetos personalizados podem incluir:
+
+* listas de assuntos definidas conforme as necessidades da organização;
+* grupos e regras de filtragem específicos;
+* configuração dos sites nos quais o filtro deve ou não atuar;
+* identidade visual personalizada;
+* recursos adicionais para implantação e administração corporativa.
+
+A extensão TopicBlock continuará gratuita.
+
+Empresas interessadas em customizações específicas ou parcerias podem entrar em contato:
+
+*Contato:* [adicionar e-mail profissional]
 
 ## Como usar
 
@@ -91,28 +137,33 @@ Após alterações no código, volte à página de extensões e clique em **Reca
 3. Adicione palavras personalizadas quando necessário.
 4. Utilize a hibernação para assuntos temporários.
 5. Cadastre sites que não devem ser filtrados.
-6. Navegue normalmente pelos portais de notícias.
+6. Navegue normalmente pelos seus portais preferidos.
 
-## Privacidade
+## Instalação para desenvolvimento
 
-As configurações da extensão são mantidas no armazenamento local do Chrome.
+1. Baixe ou clone este repositório.
+2. Abra o Google Chrome.
+3. Acesse `chrome://extensions/`.
+4. Ative o *Modo do desenvolvedor*.
+5. Clique em *Carregar sem compactação*.
+6. Selecione a pasta do TopicBlock.
 
-O TopicBlock analisa o conteúdo exibido nas páginas acessadas para identificar os termos configurados.
+Após realizar alterações no código, volte à página de extensões e clique em *Recarregar*.
 
 ## Tecnologia
 
-- Chrome Extension Manifest V3
-- JavaScript
-- HTML
-- CSS
-- Chrome Storage API
-- MutationObserver
+* Chrome Extension Manifest V3
+* JavaScript
+* HTML
+* CSS
+* Chrome Storage API
+* MutationObserver
 
 ## Status do projeto
 
-O TopicBlock está em desenvolvimento ativo.
+O TopicBlock está em desenvolvimento ativo e em fase de testes.
 
-O comportamento pode variar entre sites, pois cada portal utiliza uma estrutura HTML diferente e alguns recriam conteúdos dinamicamente após o carregamento da página.
+O comportamento pode variar entre sites, pois cada portal utiliza uma estrutura HTML diferente e alguns recriam seus conteúdos dinamicamente após o carregamento da página.
 
 ## Licença
 

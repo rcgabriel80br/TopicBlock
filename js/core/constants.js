@@ -44,7 +44,8 @@ export const DEFAULT_GROUPS = {
             "nick frazão",
             "tirullipa",
             "perez hilton",
-            "deborah secco"
+            "deborah secco",
+            "vini jr"
         ]
     },
     musica: {
@@ -77,6 +78,7 @@ export const DEFAULT_GROUPS = {
             "foto vazada",
             "vídeo vazado",
             "video vazado",
+            "vídeo íntimo",
             "orgasmo",
             "prazer sexual",
             "pornô",
