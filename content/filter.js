@@ -12,10 +12,6 @@ if (
     sessionStorage.removeItem(
         "topicblock_unfiltered_url"
     );
-    console.log(
-        "[TopicBlock] Página liberada para:",
-        location.href
-    );
 }
 else {
     sessionStorage.removeItem(
@@ -25,6 +21,14 @@ else {
 let IGNORED_SITES = [];
 let totalBlocked = 0;
 let pageBlockedCount = 0;
+let DEBUG_ENABLED = false;
+
+function debugLog(...args) {
+    if (DEBUG_ENABLED) {
+        console.debug("[TopicBlock]", ...args);
+    }
+}
+
 function updateBlockedWords(groups) {
     BLOCKED_WORDS = [];
     Object.values(groups).forEach(group => {
@@ -35,14 +39,14 @@ function updateBlockedWords(groups) {
             return;
         }
         group.words.forEach(item => {
-            // grupos normais
+            // Add regular group entries.
             if (
                 typeof item === "string"
             ) {
                 BLOCKED_WORDS.push(item);
                 return;
             }
-            // grupo hibernados
+            // Add hibernated entries that have not expired.
             if (
                 item.text &&
                 item.expires
@@ -71,6 +75,9 @@ async function loadBlockedWords() {
         if (data.topicblock_settings) {
             const settings =
                 data.topicblock_settings;
+            DEBUG_ENABLED = Boolean(
+                settings.debug
+            );
             if (settings.groups) {
                 updateBlockedWords(
                     settings.groups
@@ -83,8 +90,8 @@ async function loadBlockedWords() {
                     settings.enabled;
             }
             if (settings.debug) {
-                console.log(
-                    "[TopicBlock] Página sem filtros:",
+                debugLog(
+                    "Unfiltered page:",
                     SHOW_UNFILTERED_PAGE
                 );
             }
@@ -95,7 +102,7 @@ async function loadBlockedWords() {
         }
     } catch (error) {
         console.error(
-            "[TopicBlock] Erro ao carregar configuração:",
+            "[TopicBlock] Failed to load settings:",
             error
         );
     }
@@ -116,10 +123,10 @@ function containsBlockedWord(text) {
                     "i"
                 );
             return regex.test(normalized);
-        });
+    });
     if (found) {
-        console.log(
-            "[TopicBlock] Palavra responsável:",
+        debugLog(
+            "Matched word:",
             found
         );
         return true;
@@ -127,135 +134,53 @@ function containsBlockedWord(text) {
     return false;
 }
 function hideTopic(element) {
-    element.style.border = "10px solid red";
-    element.style.background = "yellow";
-    element.style.opacity = "1";
-    if (
-        element.dataset.topicblockLocked === "1"
-    ) {
-        console.log(
-            "[TopicBlock] BLOQUEIO DUPLO IGNORADO",
-            element
-        );
-        return;
-    }
-    console.trace(
-        "[TopicBlock] Tentando bloquear",
-        element
-    );
-    console.log(
-        "[TopicBlock IDENTIDADE]",
-        {
-            element,
-            html: element.outerHTML.substring(0, 100),
-            time: Date.now()
-        }
-    );
     if (!element) return;
+
     if (
         element.dataset.topicblockLocked === "1"
     ) {
-        console.log(
-            "[TopicBlock] Elemento protegido contra re-render"
-        );
+        debugLog("Element is already locked.");
         return;
     }
-    // ignora elementos já processados pelo TopicBlock
+
+    // Skip elements already processed by TopicBlock.
     if (
         element.dataset.topicblockHidden === "1" ||
         element.classList.contains("topicblock-blocked")
     ) {
-        console.log(
-            "[TopicBlock] Elemento já bloqueado, ignorando"
-        );
+        debugLog("Element is already blocked.");
         return;
     }
+
     if (
         element.tagName === "BODY" ||
         element.tagName === "HTML"
     ) {
         console.warn(
-            "[TopicBlock] Tentativa de bloquear página inteira"
+            "[TopicBlock] Refused to block the entire page."
         );
         return;
     }
+
     window.topicBlockUpdating = true;
     let label = null;
+
     try {
         element._topicblockOriginalHTML =
             element.innerHTML;
+        element._topicblockOriginalStyle =
+            element.getAttribute("style") || "";
         element.dataset.topicblockLocked = "1";
         element.innerHTML = "";
-        setTimeout(() => {
-            console.log(
-                "[TESTE 500ms]",
-                element.innerHTML.length
-            );
-        }, 500);
-        console.log(
-            "[TopicBlock TESTE] Depois de limpar:",
-            element.innerHTML,
-            element.children.length
-        );
         element.dataset.topicblockHidden = "1";
         element.classList.add(
             "topicblock-blocked"
         );
-        console.trace(
-            "[TopicBlock] BLOQUEIO APLICADO",
-            element
-        );
-        console.log(
-            "[TopicBlock DEBUG] hideTopic aplicado:",
-            {
-                tag: element.tagName,
-                classe: element.className,
-                textoOriginal: element._topicblockOriginalHTML?.substring(0, 150),
-                horario: new Date().toISOString()
-            }
-        );
+
         if (element.title) {
             element.title = "Conteúdo bloqueado";
         }
-        element.querySelectorAll("img").forEach(img => {
-            const width =
-                img.clientWidth ||
-                img.width ||
-                300;
-            const height =
-                img.clientHeight ||
-                img.height ||
-                180;
-            const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="${width}"
-             height="${height}">
-            <rect width="100%"
-                  height="100%"
-                  fill="#d9d9d9"/>
-            <text x="50%"
-                  y="50%"
-                  dominant-baseline="middle"
-                  text-anchor="middle"
-                  fill="#666"
-                  font-family="Arial"
-                  font-size="16">
-                Conteúdo bloqueado
-            </text>
-        </svg>
-        `;
-            img.src =
-                "data:image/svg+xml;charset=UTF-8," +
-                encodeURIComponent(svg);
-            img.alt = "Conteúdo bloqueado";
-            img.title = "Conteúdo bloqueado";
-            img.style.objectFit = "cover";
-        });
-        element.querySelectorAll("[title]").forEach(child => {
-            child.title = "Conteúdo bloqueado";
-        });
-        element._topicblockOriginalStyle =
-            element.getAttribute("style") || "";
+
         element.style.background = "#d9d9d9";
         element.style.color = "transparent";
         element.style.border = "1px solid #bfbfbf";
@@ -263,11 +188,7 @@ function hideTopic(element) {
         element.style.minHeight = "180px";
         element.style.position = "relative";
         element.style.overflow = "hidden";
-        element.querySelectorAll("*").forEach(child => {
-            if (child.tagName !== "IMG") {
-                child.style.visibility = "hidden";
-            }
-        });
+
         label = document.createElement("div");
         label.innerHTML = `
     <div style="font-weight:bold;">
@@ -297,16 +218,19 @@ function hideTopic(element) {
         showLink.onclick = (event) => {
             event.stopPropagation();
             element.dataset.topicblockExcluded = "1";
-            console.log(
-                "[TopicBlock] Restaurando conteúdo"
-            );
+
             if (!element._topicblockOriginalHTML) {
                 console.warn(
-                    "[TopicBlock] Conteúdo original não encontrado"
+                    "[TopicBlock] Original content was not found."
                 );
                 return;
             }
-            // restaura HTML original
+
+            element._topicblockGuardObserver?.disconnect();
+            delete element._topicblockGuardObserver;
+            delete element.dataset.topicblockLocked;
+
+            // Restore the original HTML.
             element.replaceChildren();
             const temp =
                 document.createElement("div");
@@ -320,7 +244,7 @@ function hideTopic(element) {
             element.querySelectorAll("*").forEach(child => {
                 child.dataset.topicblockExcluded = "1";
             });
-            // remove marcação do TopicBlock
+            // Remove TopicBlock markers.
             delete element.dataset.topicblockHidden;
             element.classList.remove(
                 "topicblock-blocked"
@@ -335,12 +259,10 @@ function hideTopic(element) {
                     "style"
                 );
             }
-            // limpa memória
+            // Release stored content after restoration.
             delete element._topicblockOriginalHTML;
+            delete element._topicblockOriginalStyle;
             delete element.dataset.topicblockCounted;
-            console.log(
-                "[TopicBlock] Conteúdo restaurado"
-            );
         };
         showLink.onmouseenter = () => {
             showLink.style.textDecoration = "underline";
@@ -360,16 +282,12 @@ function hideTopic(element) {
     }
     finally {
         window.topicBlockUpdating = false;
-        console.log(
-            "[TopicBlock] Finalizou bloqueio",
-            element.dataset.topicblockHidden,
-            element.className
-        );
-        //espiao
-        const debugObserver = new MutationObserver((mutations) => {
+
+        const guardObserver = new MutationObserver(() => {
             if (
                 element.dataset.topicblockLocked !== "1"
             ) {
+                guardObserver.disconnect();
                 return;
             }
             if (
@@ -399,23 +317,20 @@ function hideTopic(element) {
             label.style.color = "#555";
             element.appendChild(label);
         });
-        debugObserver.observe(element, {
+
+        element._topicblockGuardObserver = guardObserver;
+        guardObserver.observe(element, {
             childList: true,
             subtree: true,
             attributes: true,
-            attributeOldValue: true,
-            characterData: true
+            attributeFilter: ["class"]
         });
     }
 }
 function getContainer(topic) {
-    console.log(
-        "[TopicBlock] Analisando container de:",
-        topic.innerText,
-        topic
-    );
     let element = topic;
-    // prioridade para cards de notícias WordPress / grids
+
+    // Prefer known WordPress news card containers.
     const postCard =
         topic.closest(
             ".fl-post-grid-post, .fl-post-feed-post"
@@ -476,8 +391,8 @@ function getContainer(topic) {
             if (
                 idClass.includes("module")
             ) {
-                //return element; ok para bandab
-                continue; //ok para globo
+                // Module containers are too broad on multi-column portals.
+                continue;
             }
             if (
                 idClass.includes("main-content") ||
@@ -495,14 +410,7 @@ function getContainer(topic) {
                 element.children.length;
             const textLength =
                 (element.innerText || "").length;
-            //            if (
-            //                children <= 20 &&
-            //                textLength >= 50 &&
-            //                textLength <= 2500
-            //            ) {
-            //
-            //                return element;
-            //            }
+
             if (
                 children <= 8 &&
                 textLength >= 50 &&
@@ -521,8 +429,8 @@ function getContainer(topic) {
     return null;
 }
 function scanPage() {
-    console.log(
-        "[TopicBlock] scanPage()",
+    debugLog(
+        "Scanning page at",
         new Date().toLocaleTimeString()
     );
     totalBlocked = 0;
@@ -534,23 +442,21 @@ function scanPage() {
             host.endsWith("." + site)
         );
     if (ignored) {
-        console.log(
-            "[TopicBlock] Site ignorado:",
+        debugLog(
+            "Ignored site:",
             host
         );
         return;
     }
-    console.log(
-        "[TopicBlock] scanPage executado. Status:",
+    debugLog(
+        "Filter enabled:",
         TOPICBLOCK_ENABLED
     );
     if (
         !TOPICBLOCK_ENABLED ||
         SHOW_UNFILTERED_PAGE
     ) {
-        console.log(
-            "[TopicBlock] Filtro ignorado nesta página"
-        );
+        debugLog("Filter bypassed on this page.");
         return;
     }
     const topics =
@@ -577,14 +483,14 @@ function scanPage() {
         if (!containsBlockedWord(text)) {
             return;
         }
-        console.log(
-            "[TopicBlock] Palavra encontrada:",
+        debugLog(
+            "Blocked text found:",
             text
         );
         const container =
             getContainer(topic);
-        console.log(
-            "[TopicBlock] Container:",
+        debugLog(
+            "Selected container:",
             container
         );
         if (
@@ -594,14 +500,12 @@ function scanPage() {
                 container.closest("[data-topicblock-excluded='1']")
             )
         ) {
-            console.log(
-                "[TopicBlock] Conteúdo liberado manualmente"
-            );
+            debugLog("Content was manually revealed.");
             return;
         }
         if (!container) {
-            console.log(
-                "[TopicBlock] Container não identificado para:",
+            debugLog(
+                "No container found for:",
                 text
             );
             return;
@@ -609,9 +513,7 @@ function scanPage() {
         if (
             container.classList.contains("topicblock-blocked")
         ) {
-            console.log(
-                "[TopicBlock] Container já bloqueado"
-            );
+            debugLog("Container is already blocked.");
             return;
         }
         hideTopic(container);
@@ -625,32 +527,27 @@ function scanPage() {
         });
         pageBlockedCount = totalBlocked;
     }
-    console.log(
-        "[TopicBlock] Bloqueados nesta página:",
+    debugLog(
+        "Blocked on this page:",
         totalBlocked
     );
 }
 loadBlockedWords()
     .then(() => {
         window.scanPage = scanPage;
-        console.log(
-            "[TopicBlock] Filtro pronto",
+        debugLog(
+            "Filter ready:",
             BLOCKED_WORDS.length,
             BLOCKED_WORDS
         );
-        window.topicblockDebug = {
-            words: () => BLOCKED_WORDS,
-            groups: () => BLOCKED_WORDS.length,
-            enabled: () => TOPICBLOCK_ENABLED
-        };
         window.dispatchEvent(
             new Event("topicblock-ready")
         );
     });
 chrome.runtime.onMessage.addListener(
     (message) => {
-        console.log(
-            "[TopicBlock] Mensagem recebida:",
+        debugLog(
+            "Message received:",
             message
         );
         if (
@@ -658,8 +555,8 @@ chrome.runtime.onMessage.addListener(
         ) {
             TOPICBLOCK_ENABLED =
                 message.enabled;
-            console.log(
-                "[TopicBlock] Status atualizado:",
+            debugLog(
+                "Status updated:",
                 TOPICBLOCK_ENABLED
             );
         }
@@ -668,38 +565,19 @@ chrome.runtime.onMessage.addListener(
         ) {
             SHOW_UNFILTERED_PAGE =
                 message.showUnfilteredPage;
-            console.log(
-                "[TopicBlock] Página sem filtros:",
+            debugLog(
+                "Unfiltered page:",
                 SHOW_UNFILTERED_PAGE
             );
         }
         if (
             message.action === "showUnfilteredPage"
         ) {
-            console.log(
-                "[TopicBlock] Recebi comando para liberar página"
-            );
             sessionStorage.setItem(
                 "topicblock_unfiltered_url",
                 location.href
             );
             SHOW_UNFILTERED_PAGE = true;
-            console.log(
-                "[TopicBlock] Página atual liberada sem filtros"
-            );
-        }
-    }
-);
-chrome.runtime.onMessage.addListener(
-    (message, sender, sendResponse) => {
-        if (
-            message.action === "debugWords"
-        ) {
-            sendResponse({
-                words: BLOCKED_WORDS,
-                count: BLOCKED_WORDS.length,
-                enabled: TOPICBLOCK_ENABLED
-            });
         }
     }
 );
