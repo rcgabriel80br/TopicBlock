@@ -338,6 +338,17 @@ function getContainer(topic) {
     if (postCard) {
         return postCard;
     }
+
+    // Prefer the individual related-video card on Terra.
+    const terraRelatedVideo =
+        topic.closest(
+            ".related-videos__content--center"
+        );
+
+    if (terraRelatedVideo) {
+        return terraRelatedVideo;
+    }
+
     for (let i = 0; i < 10; i++) {
         element = element.parentElement;
         if (!element) {

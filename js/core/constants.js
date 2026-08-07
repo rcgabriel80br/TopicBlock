@@ -58,7 +58,8 @@ export const DEFAULT_GROUPS = {
             "pabllo vittar",
             "ed motta",
             "joão gomes",
-            "ty dolla"
+            "ty dolla",
+            "Pussycat Dolls"
         ]
     },
     adulto: {
