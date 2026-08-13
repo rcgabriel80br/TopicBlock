@@ -47,7 +47,8 @@ As palavras bloqueadas são organizadas em grupos, como:
 * Palavras personalizadas
 * Assuntos hibernados
 
-Cada grupo pode ser ativado ou desativado individualmente.
+Cada grupo pode ser ativado ou desativado individualmente. As listas dos
+grupos padrão também podem ser editadas pelo usuário no popup da extensão.
 
 ### Palavras personalizadas
 
@@ -134,10 +135,11 @@ Empresas interessadas em customizações específicas ou parcerias podem entrar 
 
 1. Clique no ícone do TopicBlock na barra do Chrome.
 2. Ative ou desative os grupos desejados.
-3. Adicione palavras personalizadas quando necessário.
-4. Utilize a hibernação para assuntos temporários.
-5. Cadastre sites que não devem ser filtrados.
-6. Navegue normalmente pelos seus portais preferidos.
+3. Use a engrenagem para editar as palavras de um grupo padrão.
+4. Adicione palavras personalizadas quando necessário.
+5. Utilize a hibernação para assuntos temporários.
+6. Cadastre sites que não devem ser filtrados.
+7. Navegue normalmente pelos seus portais preferidos.
 
 ## Instalação para desenvolvimento
 
