@@ -45,7 +45,8 @@ export const DEFAULT_GROUPS = {
             "tirullipa",
             "perez hilton",
             "deborah secco",
-            "vini jr"
+            "vini jr",
+            "kéfera"
         ]
     },
     musica: {
@@ -59,7 +60,9 @@ export const DEFAULT_GROUPS = {
             "ed motta",
             "joão gomes",
             "ty dolla",
-            "Pussycat Dolls"
+            "Pussycat Dolls",
+            "xamã",
+            "fiuk"
         ]
     },
     adulto: {
@@ -84,7 +87,8 @@ export const DEFAULT_GROUPS = {
             "prazer sexual",
             "pornô",
             "genderless",
-            "lgbt"
+            "lgbt",
+            "topless"
         ]
     },
     funk: {
