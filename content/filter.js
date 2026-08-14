@@ -1,5 +1,6 @@
-let BLOCKED_WORDS = [];
+let BLOCKED_ENTRIES = [];
 let TOPICBLOCK_ENABLED = true;
+let SHOW_BLOCK_REASON = true;
 let SHOW_UNFILTERED_PAGE = false;
 const unfilteredUrl =
     sessionStorage.getItem(
@@ -23,50 +24,109 @@ let totalBlocked = 0;
 let pageBlockedCount = 0;
 let DEBUG_ENABLED = false;
 
+const LEGACY_GROUP_IDS = {
+    musica: "music",
+    adulto: "adult",
+    personalizado: "custom",
+    hibernados: "hibernated"
+};
+
+const GROUP_MESSAGE_KEYS = {
+    influencers: "groupInfluencers",
+    music: "groupMusic",
+    adult: "groupAdult",
+    funk: "groupFunk",
+    bbb: "groupBbb",
+    custom: "groupCustom",
+    hibernated: "groupHibernated"
+};
+
+function getMessage(
+    key,
+    substitutions,
+    fallback
+) {
+    return chrome.i18n.getMessage(
+        key,
+        substitutions
+    ) || fallback;
+}
+
+function getCanonicalGroupId(groupId) {
+    return LEGACY_GROUP_IDS[groupId] || groupId;
+}
+
+function getGroupLabel(groupId) {
+    const canonicalGroupId =
+        getCanonicalGroupId(groupId);
+    const messageKey =
+        GROUP_MESSAGE_KEYS[canonicalGroupId];
+
+    return messageKey
+        ? getMessage(
+            messageKey,
+            undefined,
+            canonicalGroupId
+        )
+        : canonicalGroupId;
+}
+
 function debugLog(...args) {
     if (DEBUG_ENABLED) {
         console.debug("[TopicBlock]", ...args);
     }
 }
 
-function updateBlockedWords(groups) {
-    BLOCKED_WORDS = [];
-    Object.values(groups).forEach(group => {
-        if (
-            !group.enabled ||
-            !Array.isArray(group.words)
-        ) {
-            return;
-        }
-        group.words.forEach(item => {
-            // Add regular group entries.
+function updateBlockedEntries(groups) {
+    BLOCKED_ENTRIES = [];
+    Object.entries(groups).forEach(
+        ([groupId, group]) => {
             if (
-                typeof item === "string"
+                !group.enabled ||
+                !Array.isArray(group.words)
             ) {
-                BLOCKED_WORDS.push(item);
                 return;
             }
-            // Add hibernated entries that have not expired.
-            if (
-                item.text &&
-                item.expires
-            ) {
-                const expiration =
-                    new Date(item.expires);
-                const now =
-                    new Date();
+
+            group.words.forEach(item => {
+                // Add regular group entries.
                 if (
-                    expiration > now
+                    typeof item === "string"
                 ) {
-                    BLOCKED_WORDS.push(
-                        item.text
-                    );
+                    BLOCKED_ENTRIES.push({
+                        word: item,
+                        group:
+                            getCanonicalGroupId(
+                                groupId
+                            )
+                    });
+                    return;
                 }
-            }
-        });
-    });
+
+                // Add active hibernated entries.
+                if (
+                    item.text &&
+                    item.expires
+                ) {
+                    const expiration =
+                        new Date(item.expires);
+                    const now = new Date();
+
+                    if (expiration > now) {
+                        BLOCKED_ENTRIES.push({
+                            word: item.text,
+                            group:
+                                getCanonicalGroupId(
+                                    groupId
+                                )
+                        });
+                    }
+                }
+            });
+        }
+    );
 }
-async function loadBlockedWords() {
+async function loadFilterSettings() {
     try {
         const data =
             await chrome.storage.local.get(
@@ -78,8 +138,10 @@ async function loadBlockedWords() {
             DEBUG_ENABLED = Boolean(
                 settings.debug
             );
+            SHOW_BLOCK_REASON =
+                settings.showBlockReason !== false;
             if (settings.groups) {
-                updateBlockedWords(
+                updateBlockedEntries(
                     settings.groups
                 );
             }
@@ -107,33 +169,24 @@ async function loadBlockedWords() {
         );
     }
 }
-function containsBlockedWord(text) {
-    if (!text) return false;
-    const normalized =
-        text.toLowerCase();
-    const found =
-        BLOCKED_WORDS.find(word => {
-            const search =
-                word.toLowerCase();
-            const regex =
-                new RegExp(
-                    "\\b" +
-                    search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
-                    "\\b",
-                    "i"
-                );
-            return regex.test(normalized);
-    });
-    if (found) {
+function findBlockedWord(text) {
+    const match =
+        globalThis.TopicBlockMatcher
+            .findBlockedMatch(
+                text,
+                BLOCKED_ENTRIES
+            );
+
+    if (match) {
         debugLog(
-            "Matched word:",
-            found
+            "Matched entry:",
+            match
         );
-        return true;
     }
-    return false;
+
+    return match;
 }
-function hideTopic(element) {
+function hideTopic(element, match) {
     if (!element) return;
 
     if (
@@ -178,7 +231,11 @@ function hideTopic(element) {
         );
 
         if (element.title) {
-            element.title = "Conteúdo bloqueado";
+            element.title = getMessage(
+                "blockedContentTitle",
+                undefined,
+                "Blocked content"
+            );
         }
 
         element.style.background = "#d9d9d9";
@@ -190,14 +247,44 @@ function hideTopic(element) {
         element.style.overflow = "hidden";
 
         label = document.createElement("div");
-        label.innerHTML = `
-    <div style="font-weight:bold;">
-        TopicBlock
-    </div>
-    <div class="topicblock-show-content">
-        Exibir conteúdo bloqueado
-    </div>
-`;
+        const title = document.createElement("div");
+        const showLink = document.createElement("div");
+
+        title.textContent = "TopicBlock";
+        title.style.fontWeight = "bold";
+        showLink.className =
+            "topicblock-show-content";
+        showLink.textContent = getMessage(
+            "showBlockedContent",
+            undefined,
+            "Show blocked content"
+        );
+
+        label.append(title, showLink);
+
+        if (SHOW_BLOCK_REASON && match) {
+            const reason =
+                document.createElement("div");
+            const groupLabel =
+                getGroupLabel(match.group);
+
+            reason.className =
+                "topicblock-block-reason";
+            reason.textContent = getMessage(
+                "blockedReason",
+                [match.word, groupLabel],
+                `Blocked by: "${match.word}" — ${groupLabel}`
+            );
+            reason.style.marginTop = "7px";
+            reason.style.fontSize = "10px";
+            reason.style.fontWeight = "normal";
+            reason.style.color = "#777";
+            reason.style.lineHeight = "1.3";
+            reason.style.whiteSpace = "normal";
+
+            label.appendChild(reason);
+        }
+
         label.style.position = "absolute";
         label.style.top = "50%";
         label.style.left = "50%";
@@ -206,9 +293,9 @@ function hideTopic(element) {
         label.style.color = "#555";
         label.style.fontWeight = "bold";
         label.style.fontSize = "16px";
+        label.style.textAlign = "center";
+        label.style.width = "90%";
         label.style.zIndex = "999999";
-        const showLink =
-            label.querySelector(".topicblock-show-content");
         showLink.style.marginTop = "6px";
         showLink.style.fontSize = "11px";
         showLink.style.fontWeight = "normal";
@@ -449,8 +536,11 @@ function scanPage() {
         window.location.hostname.toLowerCase();
     const ignored =
         IGNORED_SITES.some(site =>
-            host === site ||
-            host.endsWith("." + site)
+            globalThis.TopicBlockSites
+                .siteMatchesHostname(
+                    host,
+                    site
+                )
         );
     if (ignored) {
         debugLog(
@@ -491,7 +581,9 @@ function scanPage() {
             topic.innerText ||
             topic.textContent ||
             "";
-        if (!containsBlockedWord(text)) {
+        const match = findBlockedWord(text);
+
+        if (!match) {
             return;
         }
         debugLog(
@@ -527,7 +619,7 @@ function scanPage() {
             debugLog("Container is already blocked.");
             return;
         }
-        hideTopic(container);
+        hideTopic(container, match);
     });
     const newBlocked =
         totalBlocked - pageBlockedCount;
@@ -543,13 +635,13 @@ function scanPage() {
         totalBlocked
     );
 }
-loadBlockedWords()
+loadFilterSettings()
     .then(() => {
         window.scanPage = scanPage;
         debugLog(
             "Filter ready:",
-            BLOCKED_WORDS.length,
-            BLOCKED_WORDS
+            BLOCKED_ENTRIES.length,
+            BLOCKED_ENTRIES
         );
         window.dispatchEvent(
             new Event("topicblock-ready")

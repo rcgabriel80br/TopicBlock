@@ -3,7 +3,7 @@ import { Storage } from "./js/core/storage.js";
 import { App } from "./js/core/app.js";
 App.init();
 chrome.runtime.onInstalled.addListener(async () => {
-    Logger.log("Instalação.");
+    Logger.log("Installed.");
     const settings = await Storage.loadSettings();
     await Storage.saveSettings(settings);
 });
@@ -14,12 +14,12 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     ) {
         const settings =
             await Storage.loadSettings();
-        // total histórico
+        // Historical total.
         settings.blockedTotal =
             (settings.blockedTotal || 0) +
             message.amount;
         await Storage.saveSettings(settings);
-        // contador da sessão atual
+        // Current session counter.
         const sessionData =
             await chrome.storage.session.get(
                 "blockedSession"
@@ -31,11 +31,11 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             blockedSession
         });
         Logger.log(
-            "Total bloqueado atualizado:",
+            "Total blocked updated:",
             settings.blockedTotal
         );
         Logger.log(
-            "Bloqueados nesta sessão:",
+            "Blocked this session:",
             blockedSession
         );
     }

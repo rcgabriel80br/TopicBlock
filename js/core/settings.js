@@ -1,11 +1,13 @@
 import {
     DEFAULT_GROUPS,
-    EDITABLE_GROUP_NAMES
+    EDITABLE_GROUP_NAMES,
+    LEGACY_GROUP_IDS
 } from "./constants.js";
 
 export const DEFAULT_SETTINGS = {
     enabled: true,
     debug: true,
+    showBlockReason: true,
     blockedTotal: 0,
     ignoredSites: [
         "google.com",
@@ -38,7 +40,23 @@ function mergeGroups(savedGroups) {
         return groups;
     }
 
+    const migratedGroups = {};
+
     Object.entries(savedGroups)
+        .forEach(([name, savedGroup]) => {
+            const migratedName =
+                LEGACY_GROUP_IDS[name] || name;
+
+            if (
+                !migratedGroups[migratedName] ||
+                migratedName === name
+            ) {
+                migratedGroups[migratedName] =
+                    savedGroup;
+            }
+        });
+
+    Object.entries(migratedGroups)
         .forEach(([name, savedGroup]) => {
             if (!isObject(savedGroup)) {
                 return;

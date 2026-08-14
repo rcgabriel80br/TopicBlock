@@ -21,6 +21,7 @@ O TopicBlock ajuda a reduzir esse excesso sem bloquear o acesso ao site inteiro.
 * Bloqueios permanentes ou temporários
 * Ícone discreto no navegador
 * Controle total do usuário
+* Interface em português do Brasil e inglês
 * Sem monitoramento da navegação
 * Sem venda de dados
 * Sempre gratuito
@@ -30,6 +31,8 @@ O TopicBlock ajuda a reduzir esse excesso sem bloquear o acesso ao site inteiro.
 O TopicBlock identifica conteúdos relacionados a assuntos, palavras ou pessoas que o usuário não deseja acompanhar.
 
 Quando encontra um termo configurado, a extensão oculta o card correspondente e o substitui por um bloco visual discreto.
+
+Durante a fase de testes, o bloco informa qual termo e grupo provocaram o bloqueio para facilitar a identificação de falsos positivos.
 
 O conteúdo não é removido do site e pode ser revelado pelo usuário a qualquer momento.
 
@@ -69,6 +72,8 @@ Após o prazo escolhido, o assunto deixa de ser bloqueado automaticamente.
 ### Sites ignorados
 
 O usuário pode cadastrar sites nos quais o TopicBlock não deve atuar.
+
+O site aberto também pode ser ignorado com um único clique no popup.
 
 Isso permite manter a extensão instalada e ativa sem interferir em páginas específicas.
 
@@ -159,11 +164,20 @@ Após realizar alterações no código, volte à página de extensões e clique 
 * HTML
 * CSS
 * Chrome Storage API
+* Chrome Internationalization API
 * MutationObserver
+
+## Testes
+
+Os testes permanentes de correspondência de palavras, migração de configurações, sites ignorados e traduções podem ser executados com:
+
+```bash
+node --test
+```
 
 ## Status do projeto
 
-O TopicBlock está em desenvolvimento ativo e em fase de testes.
+O TopicBlock 0.5.0 está em desenvolvimento ativo e em fase de testes.
 
 O comportamento pode variar entre sites, pois cada portal utiliza uma estrutura HTML diferente e alguns recriam seus conteúdos dinamicamente após o carregamento da página.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -12,108 +12,131 @@
         <header>
             <h1>🛡 TopicBlock</h1>
         </header>
-        <!-- FILTRO GERAL -->
+        <!-- General filter -->
         <section class="card">
-            <div class="sectionTitle">
-                Filtro Geral
+            <div class="sectionTitle" data-i18n="generalFilter">
+                General filter
             </div>
             <label class="switch">
                 <input type="checkbox" id="toggle">
                 <span class="slider"></span>
             </label>
             <div id="toggleText" class="toggleText">
-                Ativado
+                Enabled
             </div>
             <button id="showUnfilteredPage" class="secondary page-action">
-                👁 Ver página original
+                👁 <span data-i18n="viewOriginalPage">View original page</span>
             </button>
         </section>
-        <!-- GRUPOS -->
+        <!-- Groups -->
         <section class="card">
-            <div class="sectionTitle">
-                Grupos
+            <div class="sectionTitle" data-i18n="groups">
+                Groups
             </div>
             <div id="groupList"></div>
         </section>
-        <!-- PALAVRAS PERSONALIZADAS -->
+        <!-- Custom words -->
         <section class="card">
             <div class="sectionTitle">
-                Palavras personalizadas
+                <span data-i18n="customWords">Custom words</span>
                 <span id="wordCount"></span>
             </div>
             <ul id="wordList"></ul>
         </section>
-        <!-- NOVA PALAVRA -->
+        <!-- New word -->
         <section class="card">
-            <div class="sectionTitle">
-                Nova palavra
+            <div class="sectionTitle" data-i18n="newWord">
+                New word
             </div>
-            <input id="newWord" type="text" placeholder="Digite uma palavra...">
-            <button id="addWord" class="primary">
-                Adicionar
+            <input
+                id="newWord"
+                type="text"
+                placeholder="Enter a word..."
+                data-i18n-placeholder="enterWordPlaceholder"
+            >
+            <button id="addWord" class="primary" data-i18n="add">
+                Add
             </button>
         </section>
-        <!-- HIBERNADOS -->
+        <!-- Hibernated words -->
         <section class="card">
             <div class="sectionTitle">
-                Hibernados
+                <span data-i18n="hibernated">Hibernated</span>
                 <span id="hibernateCount"></span>
             </div>
             <ul id="hibernateList" class="hibernateList"></ul>
         </section>
-        <!-- NOVA HIBERNAÇÃO -->
+        <!-- New hibernation -->
         <section class="card">
-            <div class="sectionTitle">
-                Nova hibernação
+            <div class="sectionTitle" data-i18n="newHibernation">
+                New hibernation
             </div>
-            <input id="hibernateWord" type="text" placeholder="Digite uma palavra...">
+            <input
+                id="hibernateWord"
+                type="text"
+                placeholder="Enter a word..."
+                data-i18n-placeholder="enterWordPlaceholder"
+            >
             <div class="buttonRow">
                 <button id="hibernate7" class="primary">
-                    7 dias
+                    7 days
                 </button>
                 <button id="hibernate15" class="primary">
-                    15 dias
+                    15 days
                 </button>
                 <button id="hibernate30" class="primary">
-                    30 dias
+                    30 days
                 </button>
             </div>
         </section>
-        <!-- SITES IGNORADOS -->
+        <!-- Ignored sites -->
         <section class="card">
             <div class="sectionTitle">
-                Sites ignorados
+                <span data-i18n="ignoredSites">Ignored sites</span>
                 <span id="ignoredSitesCount"></span>
             </div>
+            <button
+                id="ignoreCurrentSite"
+                class="secondary current-site-action"
+                data-i18n="ignoreThisSite"
+            >
+                Ignore this site
+            </button>
+            <div
+                id="currentSiteMessage"
+                class="current-site-message"
+                role="status"
+            ></div>
             <ul id="ignoredSitesList"></ul>
             <input id="newIgnoredSite" type="text" placeholder="chatgpt.com">
-            <button id="addIgnoredSite" class="primary">
-                Adicionar
+            <button id="addIgnoredSite" class="primary" data-i18n="add">
+                Add
             </button>
         </section>
-        <!-- ESTATÍSTICAS -->
+        <!-- Statistics -->
         <section class="card">
-            <div class="sectionTitle">
-                Estatísticas
+            <div class="sectionTitle" data-i18n="statistics">
+                Statistics
             </div>
             <div>
-                Nesta sessão:
+                <span data-i18n="thisSession">This session:</span>
                 <strong id="blockedSession">
                     0
                 </strong>
             </div>
             <div>
-                Total bloqueado:
+                <span data-i18n="totalBlocked">Total blocked:</span>
                 <strong id="blockedTotal">
                     0
                 </strong>
             </div>
         </section>
-        <!-- RESTAURAR LISTAS PADRÃO -->
-        <button id="resetWords" class="danger">
-            Restaurar listas padrão
+        <!-- Restore default lists -->
+        <button id="resetWords" class="danger" data-i18n="restoreDefaultLists">
+            Restore default lists
         </button>
     </div>
+    <script src="../js/shared/sites.js"></script>
     <script type="module" src="popup.js"></script>
 </body>
 
