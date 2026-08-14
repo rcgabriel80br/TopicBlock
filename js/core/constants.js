@@ -10,6 +10,13 @@ export const GROUP_LABELS = {
     personalizado: "Personalizado",
     hibernados: "Hibernados"
 };
+export const EDITABLE_GROUP_NAMES = [
+    "influencers",
+    "musica",
+    "adulto",
+    "funk",
+    "bbb"
+];
 export const DEFAULT_GROUPS = {
     influencers: {
         enabled: true,

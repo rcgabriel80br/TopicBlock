@@ -200,16 +200,38 @@ button:hover {
 #groupList {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 2px;
+}
+
+.group-card {
+    border: none;
+    border-radius: 6px;
+    padding: 5px 2px;
+    transition: background .2s, box-shadow .2s;
+}
+
+.group-card.is-editing {
+    background: #f7fbff;
+    box-shadow: inset 0 0 0 1px #d6e8fb;
+    padding: 8px;
 }
 
 .group-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
-.group-row input {
+.group-toggle {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 8px;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.group-toggle input {
     width: 18px;
     height: 18px;
     margin: 0;
@@ -224,6 +246,112 @@ button:hover {
 .group-count {
     font-size: 12px;
     color: #888;
+    min-width: 20px;
+    text-align: right;
+}
+
+.group-edit {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    color: #777;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.group-edit:hover,
+.group-edit[aria-expanded="true"] {
+    background: #e8f2ff;
+    color: #2f80ed;
+}
+
+.group-editor {
+    margin-top: 9px;
+    padding-top: 10px;
+    border-top: 1px solid #e3edf8;
+}
+
+.group-editor-state {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+}
+
+.group-editor-help {
+    margin: 3px 0 8px;
+    color: #777;
+    font-size: 11px;
+}
+
+.group-editor-words {
+    width: 100%;
+    min-height: 126px;
+    box-sizing: border-box;
+    resize: vertical;
+    border: 1px solid #cfd8e3;
+    border-radius: 8px;
+    padding: 9px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.group-editor-words:focus {
+    outline: none;
+    border-color: #2f80ed;
+    box-shadow: 0 0 0 2px rgba(47, 128, 237, .12);
+}
+
+.group-editor-error {
+    min-height: 16px;
+    margin-top: 4px;
+    color: #c0392b;
+    font-size: 11px;
+}
+
+.group-editor-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.group-editor-actions button {
+    flex: 1;
+    padding: 8px;
+}
+
+.group-editor-cancel {
+    background: #ececec;
+    color: #444;
+}
+
+.group-editor-save {
+    background: #2f80ed;
+    color: #fff;
+}
+
+.group-editor-restore {
+    width: 100%;
+    margin-top: 8px;
+    padding: 5px;
+    background: transparent;
+    color: #777;
+    font-size: 11px;
+}
+
+.group-editor-restore:hover {
+    color: #c0392b;
+    text-decoration: underline;
+}
+
+.group-message {
+    padding: 8px 9px;
+    border-radius: 7px;
+    background: #edf7ee;
+    color: #34723b;
+    font-size: 11px;
+    line-height: 1.35;
 }
 
 /* ========================= */
