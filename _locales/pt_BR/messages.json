@@ -1,0 +1,213 @@
+{
+  "extensionName": {
+    "message": "TopicBlock"
+  },
+  "extensionDescription": {
+    "message": "Bloqueie conteúdos indesejados em diversos sites."
+  },
+  "generalFilter": {
+    "message": "Filtro geral"
+  },
+  "enabled": {
+    "message": "Ativado"
+  },
+  "disabled": {
+    "message": "Desativado"
+  },
+  "viewOriginalPage": {
+    "message": "Ver página original"
+  },
+  "groups": {
+    "message": "Grupos"
+  },
+  "customWords": {
+    "message": "Palavras personalizadas"
+  },
+  "newWord": {
+    "message": "Nova palavra"
+  },
+  "enterWordPlaceholder": {
+    "message": "Digite uma palavra..."
+  },
+  "add": {
+    "message": "Adicionar"
+  },
+  "hibernated": {
+    "message": "Hibernados"
+  },
+  "newHibernation": {
+    "message": "Nova hibernação"
+  },
+  "days": {
+    "message": "$DAYS$ dias",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      }
+    }
+  },
+  "ignoredSites": {
+    "message": "Sites ignorados"
+  },
+  "ignoreThisSite": {
+    "message": "Ignorar este site"
+  },
+  "siteAlreadyIgnored": {
+    "message": "Este site já está ignorado"
+  },
+  "siteUnavailable": {
+    "message": "Indisponível nesta página"
+  },
+  "siteIgnored": {
+    "message": "$SITE$ ignorado",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "statistics": {
+    "message": "Estatísticas"
+  },
+  "thisSession": {
+    "message": "Nesta sessão:"
+  },
+  "totalBlocked": {
+    "message": "Total bloqueado:"
+  },
+  "restoreDefaultLists": {
+    "message": "Restaurar listas padrão"
+  },
+  "groupInfluencers": {
+    "message": "Influenciadores"
+  },
+  "groupMusic": {
+    "message": "Música"
+  },
+  "groupAdult": {
+    "message": "Adulto"
+  },
+  "groupFunk": {
+    "message": "Funk"
+  },
+  "groupBbb": {
+    "message": "BBB"
+  },
+  "groupCustom": {
+    "message": "Personalizado"
+  },
+  "groupHibernated": {
+    "message": "Hibernados"
+  },
+  "customList": {
+    "message": "Lista personalizada"
+  },
+  "defaultList": {
+    "message": "Lista padrão"
+  },
+  "oneEntryPerLine": {
+    "message": "Uma palavra ou expressão por linha."
+  },
+  "groupWordsAria": {
+    "message": "Palavras do grupo $GROUP$",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "save": {
+    "message": "Salvar"
+  },
+  "restoreGroupDefault": {
+    "message": "Restaurar padrão deste grupo"
+  },
+  "editGroupAria": {
+    "message": "Editar palavras de $GROUP$",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "groupSaved": {
+    "message": "$GROUP$: lista salva. Recarregue a página para aplicar.",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "groupRestored": {
+    "message": "$GROUP$: lista padrão restaurada. Recarregue a página para aplicar.",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "groupRestoreConfirm": {
+    "message": "Restaurar a lista padrão de $GROUP$?",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "wordTooLong": {
+    "message": "A expressão \"$WORD$...\" ultrapassa $LIMIT$ caracteres.",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "groupWordLimit": {
+    "message": "O limite é de $LIMIT$ palavras por grupo.",
+    "placeholders": {
+      "limit": {
+        "content": "$1"
+      }
+    }
+  },
+  "expiresOn": {
+    "message": "Expira: $DATE$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "removeItem": {
+    "message": "Remover"
+  },
+  "restoreAllConfirm": {
+    "message": "Restaurar todas as listas padrão? Palavras personalizadas e hibernadas serão preservadas."
+  },
+  "allDefaultsRestored": {
+    "message": "Listas padrão restauradas. Recarregue a página para aplicar."
+  },
+  "blockedContentTitle": {
+    "message": "Conteúdo bloqueado"
+  },
+  "showBlockedContent": {
+    "message": "Exibir conteúdo bloqueado"
+  },
+  "blockedReason": {
+    "message": "Bloqueado por: \"$TERM$\" — $GROUP$",
+    "placeholders": {
+      "term": {
+        "content": "$1"
+      },
+      "group": {
+        "content": "$2"
+      }
+    }
+  }
+}

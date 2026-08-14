@@ -41,7 +41,7 @@ header h1 {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
 }
 
-/* Filtro Geral compacto */
+/* Compact general filter */
 .card:first-of-type {
     padding: 10px 16px;
 }
@@ -73,7 +73,7 @@ input:focus {
 }
 
 /* ========================= */
-/* Botões */
+/* Buttons */
 /* ========================= */
 button {
     border: none;
@@ -85,6 +85,11 @@ button {
 
 button:hover {
     opacity: .92;
+}
+
+button:disabled {
+    cursor: default;
+    opacity: .65;
 }
 
 .primary {
@@ -164,7 +169,7 @@ button:hover {
 }
 
 /* ========================= */
-/* Ignorar filtros na página */
+/* Bypass filters on the current page */
 /* ========================= */
 .unfiltered-row {
     display: flex;
@@ -195,7 +200,7 @@ button:hover {
 }
 
 /* ========================= */
-/* Grupos */
+/* Groups */
 /* ========================= */
 #groupList {
     display: flex;
@@ -355,7 +360,7 @@ button:hover {
 }
 
 /* ========================= */
-/* Listas */
+/* Lists */
 /* ========================= */
 ul {
     list-style: none;
@@ -376,7 +381,7 @@ li:last-child {
 }
 
 /* ========================= */
-/* Palavras */
+/* Words */
 /* ========================= */
 .remove {
     background: none;
@@ -391,7 +396,7 @@ li:last-child {
 }
 
 /* ========================= */
-/* Nova hibernação */
+/* New hibernation */
 /* ========================= */
 .buttonRow {
     display: flex;
@@ -406,7 +411,7 @@ li:last-child {
 }
 
 /* ========================= */
-/* Hibernados */
+/* Hibernated words */
 /* ========================= */
 .hibernateList {
     display: flex;
@@ -455,4 +460,16 @@ li:last-child {
 #hibernateCount {
     color: #888;
     font-weight: 400;
+}
+
+.current-site-action {
+    margin-bottom: 4px;
+}
+
+.current-site-message {
+    min-height: 15px;
+    margin-bottom: 4px;
+    color: #34723b;
+    font-size: 11px;
+    text-align: center;
 }

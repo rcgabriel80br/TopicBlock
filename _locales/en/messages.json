@@ -1,0 +1,213 @@
+{
+  "extensionName": {
+    "message": "TopicBlock"
+  },
+  "extensionDescription": {
+    "message": "Block unwanted topics across websites."
+  },
+  "generalFilter": {
+    "message": "General filter"
+  },
+  "enabled": {
+    "message": "Enabled"
+  },
+  "disabled": {
+    "message": "Disabled"
+  },
+  "viewOriginalPage": {
+    "message": "View original page"
+  },
+  "groups": {
+    "message": "Groups"
+  },
+  "customWords": {
+    "message": "Custom words"
+  },
+  "newWord": {
+    "message": "New word"
+  },
+  "enterWordPlaceholder": {
+    "message": "Enter a word..."
+  },
+  "add": {
+    "message": "Add"
+  },
+  "hibernated": {
+    "message": "Hibernated"
+  },
+  "newHibernation": {
+    "message": "New hibernation"
+  },
+  "days": {
+    "message": "$DAYS$ days",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      }
+    }
+  },
+  "ignoredSites": {
+    "message": "Ignored sites"
+  },
+  "ignoreThisSite": {
+    "message": "Ignore this site"
+  },
+  "siteAlreadyIgnored": {
+    "message": "This site is already ignored"
+  },
+  "siteUnavailable": {
+    "message": "Unavailable on this page"
+  },
+  "siteIgnored": {
+    "message": "$SITE$ ignored",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "statistics": {
+    "message": "Statistics"
+  },
+  "thisSession": {
+    "message": "This session:"
+  },
+  "totalBlocked": {
+    "message": "Total blocked:"
+  },
+  "restoreDefaultLists": {
+    "message": "Restore default lists"
+  },
+  "groupInfluencers": {
+    "message": "Influencers"
+  },
+  "groupMusic": {
+    "message": "Music"
+  },
+  "groupAdult": {
+    "message": "Adult"
+  },
+  "groupFunk": {
+    "message": "Funk"
+  },
+  "groupBbb": {
+    "message": "BBB"
+  },
+  "groupCustom": {
+    "message": "Custom"
+  },
+  "groupHibernated": {
+    "message": "Hibernated"
+  },
+  "customList": {
+    "message": "Custom list"
+  },
+  "defaultList": {
+    "message": "Default list"
+  },
+  "oneEntryPerLine": {
+    "message": "One word or phrase per line."
+  },
+  "groupWordsAria": {
+    "message": "Words in the $GROUP$ group",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "restoreGroupDefault": {
+    "message": "Restore this group's default"
+  },
+  "editGroupAria": {
+    "message": "Edit words in $GROUP$",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "groupSaved": {
+    "message": "$GROUP$: list saved. Reload the page to apply.",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "groupRestored": {
+    "message": "$GROUP$: default list restored. Reload the page to apply.",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "groupRestoreConfirm": {
+    "message": "Restore the default list for $GROUP$?",
+    "placeholders": {
+      "group": {
+        "content": "$1"
+      }
+    }
+  },
+  "wordTooLong": {
+    "message": "The phrase \"$WORD$...\" exceeds $LIMIT$ characters.",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "groupWordLimit": {
+    "message": "The limit is $LIMIT$ words per group.",
+    "placeholders": {
+      "limit": {
+        "content": "$1"
+      }
+    }
+  },
+  "expiresOn": {
+    "message": "Expires: $DATE$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "removeItem": {
+    "message": "Remove"
+  },
+  "restoreAllConfirm": {
+    "message": "Restore all default lists? Custom and hibernated words will be preserved."
+  },
+  "allDefaultsRestored": {
+    "message": "Default lists restored. Reload the page to apply."
+  },
+  "blockedContentTitle": {
+    "message": "Blocked content"
+  },
+  "showBlockedContent": {
+    "message": "Show blocked content"
+  },
+  "blockedReason": {
+    "message": "Blocked by: \"$TERM$\" — $GROUP$",
+    "placeholders": {
+      "term": {
+        "content": "$1"
+      },
+      "group": {
+        "content": "$2"
+      }
+    }
+  }
+}

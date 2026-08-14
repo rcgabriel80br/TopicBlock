@@ -1,19 +1,25 @@
 export const STORAGE_KEYS = {
     SETTINGS: "topicblock_settings"
 };
-export const GROUP_LABELS = {
-    influencers: "Influenciadores",
-    musica: "Música",
-    adulto: "Adulto",
-    funk: "Funk",
-    bbb: "BBB",
-    personalizado: "Personalizado",
-    hibernados: "Hibernados"
+export const GROUP_LABEL_MESSAGE_KEYS = {
+    influencers: "groupInfluencers",
+    music: "groupMusic",
+    adult: "groupAdult",
+    funk: "groupFunk",
+    bbb: "groupBbb",
+    custom: "groupCustom",
+    hibernated: "groupHibernated"
+};
+export const LEGACY_GROUP_IDS = {
+    musica: "music",
+    adulto: "adult",
+    personalizado: "custom",
+    hibernados: "hibernated"
 };
 export const EDITABLE_GROUP_NAMES = [
     "influencers",
-    "musica",
-    "adulto",
+    "music",
+    "adult",
     "funk",
     "bbb"
 ];
@@ -56,7 +62,7 @@ export const DEFAULT_GROUPS = {
             "kéfera"
         ]
     },
-    musica: {
+    music: {
         enabled: true,
         words: [
             "anitta",
@@ -72,7 +78,7 @@ export const DEFAULT_GROUPS = {
             "fiuk"
         ]
     },
-    adulto: {
+    adult: {
         enabled: true,
         words: [
             "andressa urach",
@@ -131,11 +137,11 @@ export const DEFAULT_GROUPS = {
             "davi brito"
         ]
     },
-    personalizado: {
+    custom: {
         enabled: true,
         words: []
     },
-    hibernados: {
+    hibernated: {
         enabled: true,
         words: []
     }
