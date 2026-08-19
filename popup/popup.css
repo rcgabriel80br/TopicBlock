@@ -160,7 +160,7 @@ button:disabled {
 }
 
 .switch input:checked+.slider {
-    background: #2ecc71;
+    background: #2f80ed;
 }
 
 .switch input:checked+.slider::before {
