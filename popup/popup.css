@@ -168,6 +168,34 @@ button:disabled {
     margin-top: 4px;
 }
 
+.reason-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 10px;
+    margin-bottom: 6px;
+}
+
+.reason-toggle.is-active {
+    background: #eaf7ef;
+    color: #267a45;
+    box-shadow: inset 0 0 0 1px #c7ead4;
+}
+
+.reason-toggle-state::before {
+    content: "○";
+    font-size: 13px;
+}
+
+.reason-toggle.is-active .reason-toggle-state::before {
+    content: "●";
+}
+
+.page-action {
+    margin-bottom: 0;
+}
+
 /* ========================= */
 /* Bypass filters on the current page */
 /* ========================= */
@@ -472,4 +500,20 @@ li:last-child {
     color: #34723b;
     font-size: 11px;
     text-align: center;
+}
+
+.popup-footer {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.popup-footer a {
+    color: #777;
+    text-decoration: none;
+}
+
+.popup-footer a:hover {
+    color: #2f80ed;
+    text-decoration: underline;
 }

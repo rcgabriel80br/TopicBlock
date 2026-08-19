@@ -6,7 +6,7 @@
     "message": "Bloqueie conteúdos indesejados em diversos sites."
   },
   "generalFilter": {
-    "message": "Filtro geral"
+    "message": "Geral"
   },
   "enabled": {
     "message": "Ativado"
@@ -16,6 +16,9 @@
   },
   "viewOriginalPage": {
     "message": "Ver página original"
+  },
+  "showBlockReason": {
+    "message": "Exibir motivo do bloqueio"
   },
   "groups": {
     "message": "Grupos"

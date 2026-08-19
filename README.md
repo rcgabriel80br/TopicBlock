@@ -83,6 +83,10 @@ O botão *Ver página original* recarrega temporariamente a página atual sem ap
 
 A próxima página acessada volta a utilizar os filtros normalmente.
 
+### Motivo do bloqueio
+
+Por padrão, cada bloco informa qual palavra e grupo causaram o bloqueio. O controle *Exibir motivo do bloqueio*, disponível na seção *Geral* do popup, permite ocultar ou voltar a exibir essa informação.
+
 ### Exibir conteúdo bloqueado
 
 Cada notícia bloqueada apresenta a opção *Exibir conteúdo bloqueado*.
@@ -134,17 +138,18 @@ A extensão TopicBlock continuará gratuita.
 
 Empresas interessadas em customizações específicas ou parcerias podem entrar em contato:
 
-*Contato:* [adicionar e-mail profissional]
+*Contato:* [topicblockapp@gmail.com](mailto:topicblockapp@gmail.com)
 
 ## Como usar
 
 1. Clique no ícone do TopicBlock na barra do Chrome.
-2. Ative ou desative os grupos desejados.
-3. Use a engrenagem para editar as palavras de um grupo padrão.
-4. Adicione palavras personalizadas quando necessário.
-5. Utilize a hibernação para assuntos temporários.
-6. Cadastre sites que não devem ser filtrados.
-7. Navegue normalmente pelos seus portais preferidos.
+2. Ative ou desative a extensão e a exibição do motivo do bloqueio.
+3. Ative ou desative os grupos desejados.
+4. Use a engrenagem para editar as palavras de um grupo padrão.
+5. Adicione palavras personalizadas quando necessário.
+6. Utilize a hibernação para assuntos temporários.
+7. Cadastre sites que não devem ser filtrados.
+8. Navegue normalmente pelos seus portais preferidos.
 
 ## Instalação para desenvolvimento
 
@@ -177,7 +182,7 @@ node --test
 
 ## Status do projeto
 
-O TopicBlock 0.5.0 está em desenvolvimento ativo e em fase de testes.
+O TopicBlock 0.6.0 está em desenvolvimento ativo e em fase de testes.
 
 O comportamento pode variar entre sites, pois cada portal utiliza uma estrutura HTML diferente e alguns recriam seus conteúdos dinamicamente após o carregamento da página.
 

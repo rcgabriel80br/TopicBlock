@@ -23,6 +23,7 @@ const {
 
 const toggle = $("toggle");
 const toggleText = $("toggleText");
+const showBlockReasonButton = $("showBlockReason");
 const showUnfilteredPageButton = $("showUnfilteredPage");
 const groupList = $("groupList");
 const wordList = $("wordList");
@@ -739,6 +740,18 @@ function renderIgnoredSites() {
 function render() {
     toggle.checked = settings.enabled;
 
+    const showBlockReason =
+        settings.showBlockReason !== false;
+
+    showBlockReasonButton.classList.toggle(
+        "is-active",
+        showBlockReason
+    );
+    showBlockReasonButton.setAttribute(
+        "aria-pressed",
+        String(showBlockReason)
+    );
+
     toggleText.innerText =
         settings.enabled
             ? getMessage(
@@ -784,6 +797,45 @@ toggle.addEventListener(
         settings.enabled = toggle.checked;
         await saveSettings();
         render();
+    }
+);
+
+showBlockReasonButton.addEventListener(
+    "click",
+    async () => {
+        settings.showBlockReason =
+            settings.showBlockReason === false;
+
+        await saveSettings();
+        render();
+
+        const tabs =
+            await chrome.tabs.query({
+                active: true,
+                currentWindow: true
+            });
+
+        if (!tabs[0]?.id) {
+            return;
+        }
+
+        chrome.tabs.sendMessage(
+            tabs[0].id,
+            {
+                action: "updateBlockReason",
+                showBlockReason:
+                    settings.showBlockReason
+            },
+            () => {
+                if (chrome.runtime.lastError) {
+                    console.log(
+                        chrome.runtime
+                            .lastError
+                            .message
+                    );
+                }
+            }
+        );
     }
 );
 

@@ -24,6 +24,16 @@ let totalBlocked = 0;
 let pageBlockedCount = 0;
 let DEBUG_ENABLED = false;
 
+function updateBlockReasonVisibility(showBlockReason) {
+    SHOW_BLOCK_REASON = showBlockReason;
+
+    document.querySelectorAll(
+        ".topicblock-block-reason"
+    ).forEach(reason => {
+        reason.hidden = !SHOW_BLOCK_REASON;
+    });
+}
+
 const LEGACY_GROUP_IDS = {
     musica: "music",
     adulto: "adult",
@@ -262,7 +272,7 @@ function hideTopic(element, match) {
 
         label.append(title, showLink);
 
-        if (SHOW_BLOCK_REASON && match) {
+        if (match) {
             const reason =
                 document.createElement("div");
             const groupLabel =
@@ -270,6 +280,7 @@ function hideTopic(element, match) {
 
             reason.className =
                 "topicblock-block-reason";
+            reason.hidden = !SHOW_BLOCK_REASON;
             reason.textContent = getMessage(
                 "blockedReason",
                 [match.word, groupLabel],
@@ -671,6 +682,13 @@ chrome.runtime.onMessage.addListener(
             debugLog(
                 "Unfiltered page:",
                 SHOW_UNFILTERED_PAGE
+            );
+        }
+        if (
+            message.action === "updateBlockReason"
+        ) {
+            updateBlockReasonVisibility(
+                message.showBlockReason !== false
             );
         }
         if (

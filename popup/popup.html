@@ -15,7 +15,7 @@
         <!-- General filter -->
         <section class="card">
             <div class="sectionTitle" data-i18n="generalFilter">
-                General filter
+                General
             </div>
             <label class="switch">
                 <input type="checkbox" id="toggle">
@@ -24,6 +24,17 @@
             <div id="toggleText" class="toggleText">
                 Enabled
             </div>
+            <button
+                id="showBlockReason"
+                class="secondary reason-toggle is-active"
+                type="button"
+                aria-pressed="true"
+            >
+                <span data-i18n="showBlockReason">
+                    Show block reason
+                </span>
+                <span class="reason-toggle-state" aria-hidden="true"></span>
+            </button>
             <button id="showUnfilteredPage" class="secondary page-action">
                 👁 <span data-i18n="viewOriginalPage">View original page</span>
             </button>
@@ -135,6 +146,11 @@
         <button id="resetWords" class="danger" data-i18n="restoreDefaultLists">
             Restore default lists
         </button>
+        <footer class="popup-footer">
+            <a href="mailto:topicblockapp@gmail.com">
+                topicblockapp@gmail.com
+            </a>
+        </footer>
     </div>
     <script src="../js/shared/sites.js"></script>
     <script type="module" src="popup.js"></script>

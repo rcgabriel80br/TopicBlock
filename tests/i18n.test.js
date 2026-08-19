@@ -31,11 +31,11 @@ test("English and Brazilian Portuguese expose the same messages", async () => {
     );
 });
 
-test("manifest declares version 0.5.0 and localized metadata", async () => {
+test("manifest declares version 0.6.0 and localized metadata", async () => {
     const manifest =
         await readJson("../manifest.json");
 
-    assert.equal(manifest.version, "0.5.0");
+    assert.equal(manifest.version, "0.6.0");
     assert.equal(manifest.default_locale, "en");
     assert.equal(manifest.name, "__MSG_extensionName__");
     assert.equal(

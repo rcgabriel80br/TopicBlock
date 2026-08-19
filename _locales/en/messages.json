@@ -6,7 +6,7 @@
     "message": "Block unwanted topics across websites."
   },
   "generalFilter": {
-    "message": "General filter"
+    "message": "General"
   },
   "enabled": {
     "message": "Enabled"
@@ -16,6 +16,9 @@
   },
   "viewOriginalPage": {
     "message": "View original page"
+  },
+  "showBlockReason": {
+    "message": "Show block reason"
   },
   "groups": {
     "message": "Groups"
