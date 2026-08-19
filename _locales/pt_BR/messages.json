@@ -8,11 +8,14 @@
   "generalFilter": {
     "message": "Geral"
   },
+  "extensionControl": {
+    "message": "Extensão"
+  },
   "enabled": {
-    "message": "Ativado"
+    "message": "Ativada"
   },
   "disabled": {
-    "message": "Desativado"
+    "message": "Desativada"
   },
   "viewOriginalPage": {
     "message": "Ver página original"

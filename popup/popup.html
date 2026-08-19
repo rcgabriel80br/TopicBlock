@@ -17,27 +17,42 @@
             <div class="sectionTitle" data-i18n="generalFilter">
                 General
             </div>
-            <label class="switch">
-                <input type="checkbox" id="toggle">
-                <span class="slider"></span>
-            </label>
-            <div id="toggleText" class="toggleText">
-                Enabled
+            <div class="general-setting-row">
+                <div class="general-setting-copy">
+                    <span id="extensionControlLabel" data-i18n="extensionControl">
+                        Extension
+                    </span>
+                    <span id="toggleText" class="toggleText">
+                        Enabled
+                    </span>
+                </div>
+                <label class="switch">
+                    <input
+                        type="checkbox"
+                        id="toggle"
+                        aria-labelledby="extensionControlLabel"
+                    >
+                    <span class="slider"></span>
+                </label>
             </div>
-            <button
-                id="showBlockReason"
-                class="secondary reason-toggle is-active"
-                type="button"
-                aria-pressed="true"
-            >
-                <span data-i18n="showBlockReason">
+            <div class="general-setting-row">
+                <span id="showBlockReasonLabel" data-i18n="showBlockReason">
                     Show block reason
                 </span>
-                <span class="reason-toggle-state" aria-hidden="true"></span>
-            </button>
-            <button id="showUnfilteredPage" class="secondary page-action">
-                👁 <span data-i18n="viewOriginalPage">View original page</span>
-            </button>
+                <label class="switch">
+                    <input
+                        type="checkbox"
+                        id="showBlockReason"
+                        aria-labelledby="showBlockReasonLabel"
+                    >
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="general-action-row">
+                <button id="showUnfilteredPage" class="secondary page-action">
+                    👁 <span data-i18n="viewOriginalPage">View original page</span>
+                </button>
+            </div>
         </section>
         <!-- Groups -->
         <section class="card">

@@ -46,6 +46,10 @@ header h1 {
     padding: 10px 16px;
 }
 
+.card:first-of-type .sectionTitle {
+    margin-bottom: 4px;
+}
+
 .sectionTitle {
     display: flex;
     justify-content: space-between;
@@ -122,8 +126,10 @@ button:disabled {
 /* ========================= */
 .switch {
     display: flex;
-    justify-content: center;
-    margin: 4px 0;
+    align-items: center;
+    justify-content: flex-end;
+    flex: none;
+    margin: 0;
 }
 
 .switch input {
@@ -162,34 +168,31 @@ button:disabled {
 }
 
 .toggleText {
-    text-align: center;
     font-size: 12px;
     color: #666;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
-.reason-toggle {
+.general-setting-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 7px;
-    margin-top: 10px;
-    margin-bottom: 6px;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 40px;
+    padding: 4px 0;
+    font-size: 14px;
 }
 
-.reason-toggle.is-active {
-    background: #eaf7ef;
-    color: #267a45;
-    box-shadow: inset 0 0 0 1px #c7ead4;
+.general-setting-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
-.reason-toggle-state::before {
-    content: "○";
-    font-size: 13px;
-}
-
-.reason-toggle.is-active .reason-toggle-state::before {
-    content: "●";
+.general-action-row {
+    margin-top: 5px;
+    padding-top: 9px;
+    border-top: 1px solid #eeeeee;
 }
 
 .page-action {

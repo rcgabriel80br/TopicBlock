@@ -23,7 +23,7 @@ const {
 
 const toggle = $("toggle");
 const toggleText = $("toggleText");
-const showBlockReasonButton = $("showBlockReason");
+const showBlockReasonToggle = $("showBlockReason");
 const showUnfilteredPageButton = $("showUnfilteredPage");
 const groupList = $("groupList");
 const wordList = $("wordList");
@@ -743,14 +743,8 @@ function render() {
     const showBlockReason =
         settings.showBlockReason !== false;
 
-    showBlockReasonButton.classList.toggle(
-        "is-active",
-        showBlockReason
-    );
-    showBlockReasonButton.setAttribute(
-        "aria-pressed",
-        String(showBlockReason)
-    );
+    showBlockReasonToggle.checked =
+        showBlockReason;
 
     toggleText.innerText =
         settings.enabled
@@ -800,14 +794,13 @@ toggle.addEventListener(
     }
 );
 
-showBlockReasonButton.addEventListener(
-    "click",
+showBlockReasonToggle.addEventListener(
+    "change",
     async () => {
         settings.showBlockReason =
-            settings.showBlockReason === false;
+            showBlockReasonToggle.checked;
 
         await saveSettings();
-        render();
 
         const tabs =
             await chrome.tabs.query({

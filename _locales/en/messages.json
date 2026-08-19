@@ -8,6 +8,9 @@
   "generalFilter": {
     "message": "General"
   },
+  "extensionControl": {
+    "message": "Extension"
+  },
   "enabled": {
     "message": "Enabled"
   },
