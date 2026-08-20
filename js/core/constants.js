@@ -59,7 +59,8 @@ export const DEFAULT_GROUPS = {
             "perez hilton",
             "deborah secco",
             "vini jr",
-            "kéfera"
+            "kéfera",
+            "Meghan Markle"
         ]
     },
     music: {
@@ -103,7 +104,8 @@ export const DEFAULT_GROUPS = {
             "fotos íntimas filtradas",
             "video íntimo filtrado",
             "desnudos filtrados",
-            "tapa sexo"
+            "tapa sexo",
+            "tapa-sexo"
         ]
     },
     funk: {
@@ -129,6 +131,7 @@ export const DEFAULT_GROUPS = {
         words: [
             "bbb",
             "bbb 27",
+            "bbb27",
             "big brother brasil",
             "big brother",
             "paredão",
