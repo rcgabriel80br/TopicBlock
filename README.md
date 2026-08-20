@@ -53,6 +53,14 @@ As palavras bloqueadas são organizadas em grupos, como:
 Cada grupo pode ser ativado ou desativado individualmente. As listas dos
 grupos padrão também podem ser editadas pelo usuário no popup da extensão.
 
+### Sobre as listas padrão
+
+As listas padrão do TopicBlock refletem exclusivamente preferências pessoais do desenvolvedor e servem como uma configuração inicial e um exemplo de uso da extensão.
+
+A presença de uma pessoa, assunto ou termo nessas listas não representa crítica, acusação, juízo de valor ou afirmação de qualquer conduta inadequada. Em muitos casos, não existe outro motivo além da escolha pessoal de não acompanhar determinado conteúdo.
+
+A proposta do TopicBlock é justamente permitir que cada usuário escolha o que deseja ou não ver. Todas as palavras e grupos podem ser editados, removidos ou desativados de acordo com as preferências de cada pessoa.
+
 ### Palavras personalizadas
 
 O usuário pode adicionar seus próprios termos de bloqueio.
