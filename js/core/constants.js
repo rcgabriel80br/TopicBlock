@@ -76,7 +76,8 @@ export const DEFAULT_GROUPS = {
             "ty dolla",
             "Pussycat Dolls",
             "xamã",
-            "fiuk"
+            "fiuk",
+            "kanye west"
         ]
     },
     adult: {
