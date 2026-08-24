@@ -60,7 +60,13 @@ export const DEFAULT_GROUPS = {
             "deborah secco",
             "vini jr",
             "kéfera",
-            "Meghan Markle"
+            "Meghan Markle",
+            "fabio porchat",
+            "Luísa Sonza",
+            "gracyanne",
+            "thais carla",
+            "xuxa",
+            "moskitao"
         ]
     },
     music: {
