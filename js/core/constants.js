@@ -66,7 +66,15 @@ export const DEFAULT_GROUPS = {
             "gracyanne",
             "thais carla",
             "xuxa",
-            "moskitao"
+            "moskitao",
+            "kelly key",
+            "luana piovani",
+            "cesar rincon",
+            "Miguel Mendes",
+            "Kelly Fazendeira",
+            "hytalo santos",
+            "gabriely miranda",
+            "pedro scooby"
         ]
     },
     music: {
@@ -83,7 +91,9 @@ export const DEFAULT_GROUPS = {
             "Pussycat Dolls",
             "xamã",
             "fiuk",
-            "kanye west"
+            "kanye west",
+            "paula fernandes",
+            "caetano veloso"
         ]
     },
     adult: {
@@ -112,7 +122,8 @@ export const DEFAULT_GROUPS = {
             "video íntimo filtrado",
             "desnudos filtrados",
             "tapa sexo",
-            "tapa-sexo"
+            "tapa-sexo",
+            "trisal"
         ]
     },
     funk: {
@@ -146,7 +157,8 @@ export const DEFAULT_GROUPS = {
             "estalecas",
             "casa de vidro",
             "tadeu schmidt",
-            "davi brito"
+            "davi brito",
+            "a fazenda 16"
         ]
     },
     custom: {
