@@ -1,7 +1,7 @@
 import {
     DEFAULT_GROUPS,
     EDITABLE_GROUP_NAMES,
-    GROUP_LABELS,
+    GROUP_LABEL_MESSAGE_KEYS,
     STORAGE_KEYS
 } from "../js/core/constants.js";
 
@@ -9,10 +9,21 @@ import {
     mergeSettings
 } from "../js/core/settings.js";
 
+import {
+    getMessage,
+    getUiLanguage,
+    localizeDocument
+} from "../js/core/i18n.js";
+
 const $ = id => document.getElementById(id);
+const {
+    normalizeSite,
+    siteMatchesHostname
+} = globalThis.TopicBlockSites;
 
 const toggle = $("toggle");
 const toggleText = $("toggleText");
+const showBlockReasonToggle = $("showBlockReason");
 const showUnfilteredPageButton = $("showUnfilteredPage");
 const groupList = $("groupList");
 const wordList = $("wordList");
@@ -27,6 +38,8 @@ const ignoredSitesList = $("ignoredSitesList");
 const ignoredSitesCount = $("ignoredSitesCount");
 const ignoredSiteInput = $("newIgnoredSite");
 const addIgnoredSiteButton = $("addIgnoredSite");
+const ignoreCurrentSiteButton = $("ignoreCurrentSite");
+const currentSiteMessage = $("currentSiteMessage");
 const blockedSession = $("blockedSession");
 const blockedTotal = $("blockedTotal");
 
@@ -36,6 +49,36 @@ const MAX_WORD_LENGTH = 80;
 let settings = mergeSettings();
 let editingGroup = null;
 let groupMessage = "";
+let currentSite = "";
+let currentTabId = null;
+
+localizeDocument();
+
+function getGroupLabel(name) {
+    const messageKey =
+        GROUP_LABEL_MESSAGE_KEYS[name];
+
+    return messageKey
+        ? getMessage(messageKey, undefined, name)
+        : name;
+}
+
+function localizeDynamicControls() {
+    [7, 15, 30].forEach(days => {
+        const button = $("hibernate" + days);
+
+        if (button) {
+            button.textContent =
+                getMessage(
+                    "days",
+                    String(days),
+                    `${days} days`
+                );
+        }
+    });
+}
+
+localizeDynamicControls();
 
 async function saveSettings() {
     await chrome.storage.local.set({
@@ -56,10 +99,45 @@ function createHibernateWord(word, days) {
 function cleanExpiredHibernate() {
     const now = new Date();
 
-    settings.groups.hibernados.words =
-        settings.groups.hibernados.words.filter(
+    settings.groups.hibernated.words =
+        settings.groups.hibernated.words.filter(
             item => new Date(item.expires) > now
         );
+}
+
+async function loadCurrentSite() {
+    try {
+        const tabs =
+            await chrome.tabs.query({
+                active: true,
+                currentWindow: true
+            });
+        const tab = tabs[0];
+
+        if (!tab?.url) {
+            currentSite = "";
+            currentTabId = null;
+            return;
+        }
+
+        currentTabId = tab.id ?? null;
+
+        const url = new URL(tab.url);
+
+        if (
+            url.protocol !== "http:" &&
+            url.protocol !== "https:"
+        ) {
+            currentSite = "";
+            currentTabId = null;
+            return;
+        }
+
+        currentSite = normalizeSite(url.hostname);
+    } catch {
+        currentSite = "";
+        currentTabId = null;
+    }
 }
 
 async function loadSettings() {
@@ -74,6 +152,7 @@ async function loadSettings() {
 
     cleanExpiredHibernate();
     await saveSettings();
+    await loadCurrentSite();
     render();
     await loadStatistics();
 }
@@ -84,6 +163,15 @@ function createRemoveButton(onClick) {
 
     remove.textContent = "❌";
     remove.className = "remove";
+    remove.title = getMessage(
+        "removeItem",
+        undefined,
+        "Remove"
+    );
+    remove.setAttribute(
+        "aria-label",
+        remove.title
+    );
     remove.onclick = onClick;
 
     return remove;
@@ -97,7 +185,9 @@ function parseGroupWords(value) {
         const word =
             line
                 .trim()
-                .toLocaleLowerCase("pt-BR");
+                .toLocaleLowerCase(
+                    getUiLanguage()
+                );
 
         if (!word || seen.has(word)) {
             continue;
@@ -105,9 +195,15 @@ function parseGroupWords(value) {
 
         if (word.length > MAX_WORD_LENGTH) {
             return {
-                error:
-                    `A expressão "${word.slice(0, 30)}..." ` +
-                    `ultrapassa ${MAX_WORD_LENGTH} caracteres.`
+                error: getMessage(
+                    "wordTooLong",
+                    [
+                        word.slice(0, 30),
+                        String(MAX_WORD_LENGTH)
+                    ],
+                    `The phrase "${word.slice(0, 30)}..." ` +
+                    `exceeds ${MAX_WORD_LENGTH} characters.`
+                )
             };
         }
 
@@ -117,9 +213,12 @@ function parseGroupWords(value) {
 
     if (words.length > MAX_GROUP_WORDS) {
         return {
-            error:
-                `O limite é de ${MAX_GROUP_WORDS} ` +
-                "palavras por grupo."
+            error: getMessage(
+                "groupWordLimit",
+                String(MAX_GROUP_WORDS),
+                `The limit is ${MAX_GROUP_WORDS} ` +
+                "words per group."
+            )
         };
     }
 
@@ -147,7 +246,7 @@ function hasDefaultWords(name, words) {
 
 function createGroupEditor(name, group) {
     const label =
-        GROUP_LABELS[name] || name;
+        getGroupLabel(name);
 
     const editor =
         document.createElement("div");
@@ -159,15 +258,27 @@ function createGroupEditor(name, group) {
 
     state.className = "group-editor-state";
     state.textContent = group.customized
-        ? "Lista personalizada"
-        : "Lista padrão";
+        ? getMessage(
+            "customList",
+            undefined,
+            "Custom list"
+        )
+        : getMessage(
+            "defaultList",
+            undefined,
+            "Default list"
+        );
 
     const help =
         document.createElement("div");
 
     help.className = "group-editor-help";
     help.textContent =
-        "Uma palavra ou expressão por linha.";
+        getMessage(
+            "oneEntryPerLine",
+            undefined,
+            "One word or phrase per line."
+        );
 
     const textarea =
         document.createElement("textarea");
@@ -178,7 +289,11 @@ function createGroupEditor(name, group) {
     textarea.spellcheck = false;
     textarea.setAttribute(
         "aria-label",
-        `Palavras do grupo ${label}`
+        getMessage(
+            "groupWordsAria",
+            label,
+            `Words in the ${label} group`
+        )
     );
 
     const error =
@@ -196,7 +311,11 @@ function createGroupEditor(name, group) {
         document.createElement("button");
 
     cancel.className = "group-editor-cancel";
-    cancel.textContent = "Cancelar";
+    cancel.textContent = getMessage(
+        "cancel",
+        undefined,
+        "Cancel"
+    );
     cancel.addEventListener("click", () => {
         editingGroup = null;
         renderGroups();
@@ -206,7 +325,11 @@ function createGroupEditor(name, group) {
         document.createElement("button");
 
     save.className = "group-editor-save";
-    save.textContent = "Salvar";
+    save.textContent = getMessage(
+        "save",
+        undefined,
+        "Save"
+    );
     save.addEventListener(
         "click",
         async () => {
@@ -231,8 +354,12 @@ function createGroupEditor(name, group) {
 
             editingGroup = null;
             groupMessage =
-                `${label}: lista salva. ` +
-                "Recarregue a página para aplicar.";
+                getMessage(
+                    "groupSaved",
+                    label,
+                    `${label}: list saved. ` +
+                    "Reload the page to apply."
+                );
 
             await saveSettings();
             renderGroups();
@@ -246,12 +373,20 @@ function createGroupEditor(name, group) {
 
     restore.className = "group-editor-restore";
     restore.textContent =
-        "Restaurar padrão deste grupo";
+        getMessage(
+            "restoreGroupDefault",
+            undefined,
+            "Restore this group's default"
+        );
     restore.addEventListener(
         "click",
         async () => {
             const confirmed = window.confirm(
-                `Restaurar a lista padrão de ${label}?`
+                getMessage(
+                    "groupRestoreConfirm",
+                    label,
+                    `Restore the default list for ${label}?`
+                )
             );
 
             if (!confirmed) {
@@ -270,8 +405,12 @@ function createGroupEditor(name, group) {
 
             editingGroup = null;
             groupMessage =
-                `${label}: lista padrão restaurada. ` +
-                "Recarregue a página para aplicar.";
+                getMessage(
+                    "groupRestored",
+                    label,
+                    `${label}: default list restored. ` +
+                    "Reload the page to apply."
+                );
 
             await saveSettings();
             renderGroups();
@@ -334,7 +473,7 @@ function renderGroups() {
 
             title.className = "group-name";
             title.textContent =
-                GROUP_LABELS[name] || name;
+                getGroupLabel(name);
 
             const count =
                 document.createElement("span");
@@ -363,7 +502,11 @@ function renderGroups() {
                 edit.className = "group-edit";
                 edit.textContent = "⚙";
                 edit.title =
-                    `Editar palavras de ${title.textContent}`;
+                    getMessage(
+                        "editGroupAria",
+                        title.textContent,
+                        `Edit words in ${title.textContent}`
+                    );
                 edit.setAttribute(
                     "aria-label",
                     edit.title
@@ -424,7 +567,7 @@ function renderCustomWords() {
     wordList.innerHTML = "";
 
     const words =
-        settings.groups.personalizado.words ||
+        settings.groups.custom.words ||
         [];
 
     wordCount.innerText =
@@ -440,7 +583,7 @@ function renderCustomWords() {
             createRemoveButton(
                 async () => {
                     settings.groups
-                        .personalizado
+                        .custom
                         .words =
                         words.filter(
                             item => item !== word
@@ -464,7 +607,7 @@ function renderHibernateWords() {
     hibernateList.innerHTML = "";
 
     const words =
-        settings.groups.hibernados.words ||
+        settings.groups.hibernated.words ||
         [];
 
     hibernateCount.innerText =
@@ -474,18 +617,34 @@ function renderHibernateWords() {
         const li =
             document.createElement("li");
 
-        li.innerHTML =
-            `${item.text}
-             <span> - Expira: ${
-                 new Date(item.expires)
-                     .toLocaleDateString("pt-BR")
-             }</span>`;
+        const wordLabel =
+            document.createElement("span");
+        const expirationLabel =
+            document.createElement("span");
+        const expirationDate =
+            new Date(item.expires)
+                .toLocaleDateString(
+                    getUiLanguage()
+                );
+
+        wordLabel.className = "hibernateWord";
+        wordLabel.textContent = item.text;
+        expirationLabel.className =
+            "hibernateExpire";
+        expirationLabel.textContent =
+            getMessage(
+                "expiresOn",
+                expirationDate,
+                `Expires: ${expirationDate}`
+            );
+
+        li.append(wordLabel, expirationLabel);
 
         li.appendChild(
             createRemoveButton(
                 async () => {
                     settings.groups
-                        .hibernados
+                        .hibernated
                         .words =
                         words.filter(
                             word =>
@@ -542,15 +701,63 @@ function renderIgnoredSites() {
 
             ignoredSitesList.appendChild(li);
         });
+
+    if (!currentSite) {
+        ignoreCurrentSiteButton.disabled = true;
+        ignoreCurrentSiteButton.textContent =
+            getMessage(
+                "siteUnavailable",
+                undefined,
+                "Unavailable on this page"
+            );
+        return;
+    }
+
+    const alreadyIgnored =
+        sites.some(site =>
+            siteMatchesHostname(
+                currentSite,
+                site
+            )
+        );
+
+    ignoreCurrentSiteButton.disabled =
+        alreadyIgnored;
+    ignoreCurrentSiteButton.textContent =
+        alreadyIgnored
+            ? getMessage(
+                "siteAlreadyIgnored",
+                undefined,
+                "This site is already ignored"
+            )
+            : getMessage(
+                "ignoreThisSite",
+                undefined,
+                "Ignore this site"
+            );
 }
 
 function render() {
     toggle.checked = settings.enabled;
 
+    const showBlockReason =
+        settings.showBlockReason !== false;
+
+    showBlockReasonToggle.checked =
+        showBlockReason;
+
     toggleText.innerText =
         settings.enabled
-            ? "Ativado"
-            : "Desativado";
+            ? getMessage(
+                "enabled",
+                undefined,
+                "Enabled"
+            )
+            : getMessage(
+                "disabled",
+                undefined,
+                "Disabled"
+            );
 
     renderGroups();
     renderCustomWords();
@@ -584,6 +791,44 @@ toggle.addEventListener(
         settings.enabled = toggle.checked;
         await saveSettings();
         render();
+    }
+);
+
+showBlockReasonToggle.addEventListener(
+    "change",
+    async () => {
+        settings.showBlockReason =
+            showBlockReasonToggle.checked;
+
+        await saveSettings();
+
+        const tabs =
+            await chrome.tabs.query({
+                active: true,
+                currentWindow: true
+            });
+
+        if (!tabs[0]?.id) {
+            return;
+        }
+
+        chrome.tabs.sendMessage(
+            tabs[0].id,
+            {
+                action: "updateBlockReason",
+                showBlockReason:
+                    settings.showBlockReason
+            },
+            () => {
+                if (chrome.runtime.lastError) {
+                    console.log(
+                        chrome.runtime
+                            .lastError
+                            .message
+                    );
+                }
+            }
+        );
     }
 );
 
@@ -632,7 +877,9 @@ addButton.addEventListener(
         const word =
             input.value
                 .trim()
-                .toLowerCase();
+                .toLocaleLowerCase(
+                    getUiLanguage()
+                );
 
         if (!word) {
             return;
@@ -640,7 +887,7 @@ addButton.addEventListener(
 
         const words =
             settings.groups
-                .personalizado
+                .custom
                 .words;
 
         if (!words.includes(word)) {
@@ -665,9 +912,11 @@ addIgnoredSiteButton.addEventListener(
             return;
         }
 
-        site = site
-            .replace(/^https?:\/\//, "")
-            .replace(/\/.*$/, "");
+        site = normalizeSite(site);
+
+        if (!site) {
+            return;
+        }
 
         if (
             !settings.ignoredSites
@@ -680,6 +929,41 @@ addIgnoredSiteButton.addEventListener(
         ignoredSiteInput.value = "";
         await saveSettings();
         render();
+    }
+);
+
+ignoreCurrentSiteButton.addEventListener(
+    "click",
+    async () => {
+        if (!currentSite) {
+            return;
+        }
+
+        if (
+            !settings.ignoredSites
+                .includes(currentSite)
+        ) {
+            settings.ignoredSites.push(
+                currentSite
+            );
+            settings.ignoredSites.sort();
+        }
+
+        currentSiteMessage.textContent =
+            getMessage(
+                "siteIgnored",
+                currentSite,
+                `${currentSite} ignored`
+            );
+
+        await saveSettings();
+        renderIgnoredSites();
+
+        if (currentTabId !== null) {
+            await chrome.tabs.reload(
+                currentTabId
+            );
+        }
     }
 );
 
@@ -699,14 +983,16 @@ function registerHibernate(
             const word =
                 hibernateInput.value
                     .trim()
-                    .toLowerCase();
+                    .toLocaleLowerCase(
+                        getUiLanguage()
+                    );
 
             if (!word) {
                 return;
             }
 
             settings.groups
-                .hibernados
+                .hibernated
                 .words
                 .push(
                     createHibernateWord(
@@ -730,9 +1016,13 @@ resetButton.addEventListener(
     "click",
     async () => {
         const confirmed = window.confirm(
-            "Restaurar todas as listas padrão? " +
-            "Palavras personalizadas e hibernadas " +
-            "serão preservadas."
+            getMessage(
+                "restoreAllConfirm",
+                undefined,
+                "Restore all default lists? " +
+                "Custom and hibernated words " +
+                "will be preserved."
+            )
         );
 
         if (!confirmed) {
@@ -756,8 +1046,12 @@ resetButton.addEventListener(
 
         editingGroup = null;
         groupMessage =
-            "Listas padrão restauradas. " +
-            "Recarregue a página para aplicar.";
+            getMessage(
+                "allDefaultsRestored",
+                undefined,
+                "Default lists restored. " +
+                "Reload the page to apply."
+            );
 
         await saveSettings();
         render();

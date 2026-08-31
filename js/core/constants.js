@@ -1,19 +1,25 @@
 export const STORAGE_KEYS = {
     SETTINGS: "topicblock_settings"
 };
-export const GROUP_LABELS = {
-    influencers: "Influenciadores",
-    musica: "Música",
-    adulto: "Adulto",
-    funk: "Funk",
-    bbb: "BBB",
-    personalizado: "Personalizado",
-    hibernados: "Hibernados"
+export const GROUP_LABEL_MESSAGE_KEYS = {
+    influencers: "groupInfluencers",
+    music: "groupMusic",
+    adult: "groupAdult",
+    funk: "groupFunk",
+    bbb: "groupBbb",
+    custom: "groupCustom",
+    hibernated: "groupHibernated"
+};
+export const LEGACY_GROUP_IDS = {
+    musica: "music",
+    adulto: "adult",
+    personalizado: "custom",
+    hibernados: "hibernated"
 };
 export const EDITABLE_GROUP_NAMES = [
     "influencers",
-    "musica",
-    "adulto",
+    "music",
+    "adult",
     "funk",
     "bbb"
 ];
@@ -35,7 +41,7 @@ export const DEFAULT_GROUPS = {
             "gkay",
             "felipe neto",
             "whindersson",
-            "lucas neto",
+            "luccas neto",
             "maíra cardi",
             "arthur aguiar",
             "karen bachini",
@@ -53,10 +59,25 @@ export const DEFAULT_GROUPS = {
             "perez hilton",
             "deborah secco",
             "vini jr",
-            "kéfera"
+            "kéfera",
+            "Meghan Markle",
+            "fabio porchat",
+            "Luísa Sonza",
+            "gracyanne",
+            "thais carla",
+            "xuxa",
+            "moskitao",
+            "kelly key",
+            "luana piovani",
+            "cesar rincon",
+            "Miguel Mendes",
+            "Kelly Fazendeira",
+            "hytalo santos",
+            "gabriely miranda",
+            "pedro scooby"
         ]
     },
-    musica: {
+    music: {
         enabled: true,
         words: [
             "anitta",
@@ -69,33 +90,40 @@ export const DEFAULT_GROUPS = {
             "ty dolla",
             "Pussycat Dolls",
             "xamã",
-            "fiuk"
+            "fiuk",
+            "kanye west",
+            "paula fernandes",
+            "caetano veloso"
         ]
     },
-    adulto: {
+    adult: {
         enabled: true,
         words: [
             "andressa urach",
             "urach",
-            "privacy",
             "onlyfans",
             "fansly",
-            "close friends",
-            "conteúdo adulto",
             "conteudo adulto",
             "nudes",
             "vazamento íntimo",
             "vazamento de fotos",
-            "foto vazada",
-            "vídeo vazado",
-            "video vazado",
-            "vídeo íntimo",
+            "foto intima",
+            "video intimo",
             "orgasmo",
             "prazer sexual",
             "pornô",
-            "genderless",
             "lgbt",
-            "topless"
+            "topless",
+            "leaked nudes",
+            "leaked intimate photos",
+            "leaked intimate video",
+            "sex tape",
+            "fotos íntimas filtradas",
+            "video íntimo filtrado",
+            "desnudos filtrados",
+            "tapa sexo",
+            "tapa-sexo",
+            "trisal"
         ]
     },
     funk: {
@@ -120,6 +148,7 @@ export const DEFAULT_GROUPS = {
         enabled: true,
         words: [
             "bbb",
+            "bbb 27",
             "bbb27",
             "big brother brasil",
             "big brother",
@@ -128,14 +157,15 @@ export const DEFAULT_GROUPS = {
             "estalecas",
             "casa de vidro",
             "tadeu schmidt",
-            "davi brito"
+            "davi brito",
+            "a fazenda 16"
         ]
     },
-    personalizado: {
+    custom: {
         enabled: true,
         words: []
     },
-    hibernados: {
+    hibernated: {
         enabled: true,
         words: []
     }

@@ -21,6 +21,7 @@ O TopicBlock ajuda a reduzir esse excesso sem bloquear o acesso ao site inteiro.
 * Bloqueios permanentes ou temporários
 * Ícone discreto no navegador
 * Controle total do usuário
+* Interface em português do Brasil e inglês
 * Sem monitoramento da navegação
 * Sem venda de dados
 * Sempre gratuito
@@ -30,6 +31,8 @@ O TopicBlock ajuda a reduzir esse excesso sem bloquear o acesso ao site inteiro.
 O TopicBlock identifica conteúdos relacionados a assuntos, palavras ou pessoas que o usuário não deseja acompanhar.
 
 Quando encontra um termo configurado, a extensão oculta o card correspondente e o substitui por um bloco visual discreto.
+
+Durante a fase de testes, o bloco informa qual termo e grupo provocaram o bloqueio para facilitar a identificação de falsos positivos.
 
 O conteúdo não é removido do site e pode ser revelado pelo usuário a qualquer momento.
 
@@ -49,6 +52,14 @@ As palavras bloqueadas são organizadas em grupos, como:
 
 Cada grupo pode ser ativado ou desativado individualmente. As listas dos
 grupos padrão também podem ser editadas pelo usuário no popup da extensão.
+
+### Sobre as listas padrão
+
+As listas padrão do TopicBlock refletem exclusivamente preferências pessoais do desenvolvedor e servem como uma configuração inicial e um exemplo de uso da extensão.
+
+A presença de uma pessoa, assunto ou termo nessas listas não representa crítica, acusação, juízo de valor ou afirmação de qualquer conduta inadequada. Em muitos casos, não existe outro motivo além da escolha pessoal de não acompanhar determinado conteúdo.
+
+A proposta do TopicBlock é justamente permitir que cada usuário escolha o que deseja ou não ver. Todas as palavras e grupos podem ser editados, removidos ou desativados de acordo com as preferências de cada pessoa.
 
 ### Palavras personalizadas
 
@@ -70,6 +81,8 @@ Após o prazo escolhido, o assunto deixa de ser bloqueado automaticamente.
 
 O usuário pode cadastrar sites nos quais o TopicBlock não deve atuar.
 
+O site aberto também pode ser ignorado com um único clique no popup.
+
 Isso permite manter a extensão instalada e ativa sem interferir em páginas específicas.
 
 ### Ver página original
@@ -77,6 +90,10 @@ Isso permite manter a extensão instalada e ativa sem interferir em páginas esp
 O botão *Ver página original* recarrega temporariamente a página atual sem aplicar os filtros do TopicBlock.
 
 A próxima página acessada volta a utilizar os filtros normalmente.
+
+### Motivo do bloqueio
+
+Por padrão, cada bloco informa qual palavra e grupo causaram o bloqueio. O controle *Exibir motivo do bloqueio*, disponível na seção *Geral* do popup, permite ocultar ou voltar a exibir essa informação.
 
 ### Exibir conteúdo bloqueado
 
@@ -129,17 +146,18 @@ A extensão TopicBlock continuará gratuita.
 
 Empresas interessadas em customizações específicas ou parcerias podem entrar em contato:
 
-*Contato:* [adicionar e-mail profissional]
+*Contato:* [topicblockapp@gmail.com](mailto:topicblockapp@gmail.com)
 
 ## Como usar
 
 1. Clique no ícone do TopicBlock na barra do Chrome.
-2. Ative ou desative os grupos desejados.
-3. Use a engrenagem para editar as palavras de um grupo padrão.
-4. Adicione palavras personalizadas quando necessário.
-5. Utilize a hibernação para assuntos temporários.
-6. Cadastre sites que não devem ser filtrados.
-7. Navegue normalmente pelos seus portais preferidos.
+2. Ative ou desative a extensão e a exibição do motivo do bloqueio.
+3. Ative ou desative os grupos desejados.
+4. Use a engrenagem para editar as palavras de um grupo padrão.
+5. Adicione palavras personalizadas quando necessário.
+6. Utilize a hibernação para assuntos temporários.
+7. Cadastre sites que não devem ser filtrados.
+8. Navegue normalmente pelos seus portais preferidos.
 
 ## Instalação para desenvolvimento
 
@@ -159,11 +177,20 @@ Após realizar alterações no código, volte à página de extensões e clique 
 * HTML
 * CSS
 * Chrome Storage API
+* Chrome Internationalization API
 * MutationObserver
+
+## Testes
+
+Os testes permanentes de correspondência de palavras, migração de configurações, sites ignorados e traduções podem ser executados com:
+
+```bash
+node --test
+```
 
 ## Status do projeto
 
-O TopicBlock está em desenvolvimento ativo e em fase de testes.
+O TopicBlock 0.6.0 está em desenvolvimento ativo e em fase de testes.
 
 O comportamento pode variar entre sites, pois cada portal utiliza uma estrutura HTML diferente e alguns recriam seus conteúdos dinamicamente após o carregamento da página.
 

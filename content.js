@@ -1,5 +1,5 @@
-console.log("TopicBlock iniciado");
-// Aguarda o filtro carregar as configurações
+console.log("TopicBlock started");
+// Wait for the filter to load its settings.
 window.addEventListener(
     "topicblock-ready",
     () => {
@@ -7,12 +7,12 @@ window.addEventListener(
             window.scanPage();
         } else {
             console.error(
-                "[TopicBlock] scanPage() não encontrada."
+                "[TopicBlock] scanPage() was not found."
             );
         }
     }
 );
-// Inicia o observer
+// Start the observer.
 const observer = new window.Observer(async () => {
     observer.stop();
     try {
