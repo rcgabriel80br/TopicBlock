@@ -15,8 +15,16 @@ class Observer {
                 return;
             }
 
-            clearTimeout(this.timer);
+            // Keep busy pages from postponing the scan forever. News portals
+            // can mutate ads, scores, and lazy-loaded cards continuously, so a
+            // traditional debounce may never get its quiet period.
+            if (this.timer) {
+                return;
+            }
+
             this.timer = setTimeout(() => {
+                this.timer = null;
+
                 if (window.topicBlockUpdating) {
                     return;
                 }
