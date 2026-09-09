@@ -141,7 +141,8 @@ export const DEFAULT_GROUPS = {
             "mandelão",
             "mc paiva",
             "menor teteu",
-            "proibidão"
+            "proibidão",
+            "mc Guime"
         ]
     },
     bbb: {
