@@ -74,7 +74,8 @@ export const DEFAULT_GROUPS = {
             "Kelly Fazendeira",
             "hytalo santos",
             "gabriely miranda",
-            "pedro scooby"
+            "pedro scooby",
+            "kardashian"
         ]
     },
     music: {
@@ -93,7 +94,8 @@ export const DEFAULT_GROUPS = {
             "fiuk",
             "kanye west",
             "paula fernandes",
-            "caetano veloso"
+            "caetano veloso",
+            "jota quest"
         ]
     },
     adult: {
@@ -159,7 +161,8 @@ export const DEFAULT_GROUPS = {
             "casa de vidro",
             "tadeu schmidt",
             "davi brito",
-            "a fazenda 16"
+            "a fazenda 18",
+            "a fazenda 2026"
         ]
     },
     custom: {
