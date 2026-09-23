@@ -7,6 +7,5 @@ export class App {
             return;
         }
         this.initialized = true;
-        console.log(`${this.name} ${this.version} started.`);
     }
 }

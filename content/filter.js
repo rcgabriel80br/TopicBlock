@@ -22,7 +22,8 @@ else {
 let IGNORED_SITES = [];
 let blockedThisScan = 0;
 let pageBlockedCount = 0;
-let DEBUG_ENABLED = false;
+// Enable here only for local troubleshooting, never from saved user settings.
+const DEBUG_ENABLED = false;
 
 function updateBlockReasonVisibility(showBlockReason) {
     SHOW_BLOCK_REASON = showBlockReason;
@@ -150,7 +151,6 @@ function applyFilterSettings(settings = {}, refresh = true) {
     ]);
     const rulesChanged = signature !== filterSignature;
     filterSignature = signature;
-    DEBUG_ENABLED = Boolean(settings.debug);
     TOPICBLOCK_ENABLED = settings.enabled !== false;
     IGNORED_SITES = settings.ignoredSites || [];
     updateBlockedEntries(settings.groups || {});

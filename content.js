@@ -1,4 +1,3 @@
-console.log("TopicBlock started");
 // Wait for the filter to load its settings.
 window.addEventListener(
     "topicblock-ready",

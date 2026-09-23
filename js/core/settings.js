@@ -6,7 +6,7 @@ import {
 
 export const DEFAULT_SETTINGS = {
     enabled: true,
-    debug: true,
+    debug: false,
     showBlockReason: true,
     blockedTotal: 0,
     ignoredSites: [
@@ -123,7 +123,9 @@ export function mergeSettings(savedSettings = {}) {
 
     const settings = {
         ...structuredClone(DEFAULT_SETTINGS),
-        ...saved
+        ...saved,
+        // Retire diagnostic logging enabled by older test builds.
+        debug: false
     };
 
     settings.groups =

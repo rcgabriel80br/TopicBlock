@@ -819,7 +819,7 @@ showBlockReasonToggle.addEventListener(
             },
             () => {
                 if (chrome.runtime.lastError) {
-                    console.log(
+                    console.error(
                         chrome.runtime
                             .lastError
                             .message
@@ -851,7 +851,7 @@ showUnfilteredPageButton.addEventListener(
             },
             () => {
                 if (chrome.runtime.lastError) {
-                    console.log(
+                    console.error(
                         chrome.runtime
                             .lastError
                             .message
