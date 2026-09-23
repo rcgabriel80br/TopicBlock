@@ -1,45 +1,30 @@
 import { Logger } from "./js/core/logger.js";
 import { Storage } from "./js/core/storage.js";
 import { App } from "./js/core/app.js";
+import { createStatistics } from "./js/core/statistics.js";
+const statistics = createStatistics(chrome.storage);
 App.init();
 chrome.runtime.onInstalled.addListener(async () => {
     Logger.log("Installed.");
     const settings = await Storage.loadSettings();
     await Storage.saveSettings(settings);
 });
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-    Logger.log(message);
-    if (
-        message.action === "incrementBlockedTotal"
-    ) {
-        const settings =
-            await Storage.loadSettings();
-        // Historical total.
-        settings.blockedTotal =
-            (settings.blockedTotal || 0) +
-            message.amount;
-        await Storage.saveSettings(settings);
-        // Current session counter.
-        const sessionData =
-            await chrome.storage.session.get(
-                "blockedSession"
-            );
-        const blockedSession =
-            (sessionData.blockedSession || 0) +
-            message.amount;
-        await chrome.storage.session.set({
-            blockedSession
-        });
-        Logger.log(
-            "Total blocked updated:",
-            settings.blockedTotal
-        );
-        Logger.log(
-            "Blocked this session:",
-            blockedSession
-        );
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    let operation;
+    if (message.action === "incrementBlockedTotal") {
+        operation = statistics.increment(message.amount);
+    } else if (message.action === "getStatistics") {
+        operation = statistics.read();
+    } else {
+        return false;
     }
-    sendResponse({
-        success: true
-    });
+    operation.then(
+        counters => sendResponse({ success: true, ...counters }),
+        error => {
+            Logger.error("Failed to update statistics:", error);
+            sendResponse({ success: false, error: error.message });
+        }
+    );
+    // Keep the message channel open until the queued storage operation finishes.
+    return true;
 });

@@ -1,3 +1,4 @@
+import { STATISTICS_KEY, SESSION_KEY } from "../js/core/statistics.js";
 import {
     DEFAULT_GROUPS,
     EDITABLE_GROUP_NAMES,
@@ -759,25 +760,28 @@ function render() {
     renderIgnoredSites();
 }
 
+let statisticsRequest = 0;
 async function loadStatistics() {
-    const sessionData =
-        await chrome.storage.session.get(
-            "blockedSession"
-        );
-
-    const localData =
-        await chrome.storage.local.get(
-            STORAGE_KEYS.SETTINGS
-        );
-
-    blockedSession.innerText =
-        sessionData.blockedSession || 0;
-
-    blockedTotal.innerText =
-        localData[
-            STORAGE_KEYS.SETTINGS
-        ]?.blockedTotal || 0;
+    const request = ++statisticsRequest;
+    try {
+        const counters = await chrome.runtime.sendMessage({ action: "getStatistics" });
+        if (!counters?.success) {
+            throw new Error(counters?.error || "Statistics unavailable");
+        }
+        if (request !== statisticsRequest) return;
+        blockedSession.innerText = counters.blockedSession;
+        blockedTotal.innerText = counters.blockedTotal;
+    } catch (error) {
+        console.error("[TopicBlock] Failed to load statistics:", error);
+    }
 }
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+    if ((areaName === "local" && changes[STATISTICS_KEY]) ||
+        (areaName === "session" && changes[SESSION_KEY])) {
+        void loadStatistics();
+    }
+});
 
 toggle.addEventListener(
     "change",
