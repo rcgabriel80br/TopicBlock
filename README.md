@@ -155,7 +155,7 @@ As alterações de palavras, grupos, hibernação, sites ignorados e ativação 
 
 ## Versão e compatibilidade
 
-Versão atual: **0.6.0**, para Google Chrome (Manifest V3).
+Versão atual: **1.0.0**, para Google Chrome (Manifest V3).
 
 O comportamento pode variar entre sites, pois cada portal utiliza uma estrutura HTML diferente e alguns recriam seus conteúdos dinamicamente após o carregamento da página.
 
