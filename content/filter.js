@@ -20,7 +20,7 @@ else {
     );
 }
 let IGNORED_SITES = [];
-let totalBlocked = 0;
+let blockedThisScan = 0;
 let pageBlockedCount = 0;
 let DEBUG_ENABLED = false;
 
@@ -375,7 +375,7 @@ function hideTopic(element, match) {
             !element.dataset.topicblockCounted
         ) {
             element.dataset.topicblockCounted = "1";
-            totalBlocked++;
+            blockedThisScan++;
         }
     }
     finally {
@@ -542,7 +542,7 @@ function scanPage() {
         "Scanning page at",
         new Date().toLocaleTimeString()
     );
-    totalBlocked = 0;
+    blockedThisScan = 0;
     const host =
         window.location.hostname.toLowerCase();
     const ignored =
@@ -632,18 +632,18 @@ function scanPage() {
         }
         hideTopic(container, match);
     });
-    const newBlocked =
-        totalBlocked - pageBlockedCount;
+    // Only newly hidden cards are counted during this scan.
+    const newBlocked = blockedThisScan;
     if (newBlocked > 0) {
         chrome.runtime.sendMessage({
             action: "incrementBlockedTotal",
             amount: newBlocked
         });
-        pageBlockedCount = totalBlocked;
+        pageBlockedCount += newBlocked;
     }
     debugLog(
         "Blocked on this page:",
-        totalBlocked
+        pageBlockedCount
     );
 }
 loadFilterSettings()
