@@ -143,17 +143,6 @@ Para dúvidas, sugestões ou relato de problemas: [topicblockapp@gmail.com](mail
 
 As alterações de palavras, grupos, hibernação, sites ignorados e ativação do filtro são aplicadas às páginas já abertas, sem recarregá-las. Conteúdos que deixarem de corresponder às regras são restaurados. Conteúdos revelados manualmente continuam visíveis naquela página.
 
-## Instalação para desenvolvimento
-
-1. Baixe ou clone este repositório.
-2. Abra o Google Chrome.
-3. Acesse `chrome://extensions/`.
-4. Ative o *Modo do desenvolvedor*.
-5. Clique em *Carregar sem compactação*.
-6. Selecione a pasta do TopicBlock.
-
-Após realizar alterações no código, volte à página de extensões e clique em *Recarregar*.
-
 ## Tecnologia
 
 * Chrome Extension Manifest V3
@@ -163,16 +152,6 @@ Após realizar alterações no código, volte à página de extensões e clique 
 * Chrome Storage API
 * Chrome Internationalization API
 * MutationObserver
-
-## Testes
-
-Os testes automatizados cobrem correspondência de palavras, configurações, sites ignorados, traduções, conteúdo dinâmico, atualização das regras e estatísticas. Execute:
-
-```bash
-node --test
-```
-
-A pasta `tests` faz parte do repositório de desenvolvimento e não é necessária no pacote distribuído aos usuários.
 
 ## Versão e compatibilidade
 
