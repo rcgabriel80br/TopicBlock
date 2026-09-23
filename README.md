@@ -32,7 +32,7 @@ O TopicBlock identifica conteúdos relacionados a assuntos, palavras ou pessoas 
 
 Quando encontra um termo configurado, a extensão oculta o card correspondente e o substitui por um bloco visual discreto.
 
-Durante a fase de testes, o bloco informa qual termo e grupo provocaram o bloqueio para facilitar a identificação de falsos positivos.
+O bloco pode informar qual termo e grupo provocaram o bloqueio. Essa informação pode ser ocultada pelo controle *Exibir motivo do bloqueio*.
 
 O conteúdo não é removido do site e pode ser revelado pelo usuário a qualquer momento.
 
@@ -118,35 +118,17 @@ O popup da extensão apresenta:
 
 ## Privacidade
 
-O TopicBlock foi desenvolvido para filtrar conteúdos, não para monitorar usuários.
+O TopicBlock processa o texto das páginas no próprio navegador para aplicar as listas de bloqueio ativas. As configurações e os contadores são armazenados localmente, sem envio ao desenvolvedor ou a servidores da extensão.
 
-As configurações da extensão são mantidas no armazenamento local do Chrome.
+A extensão não usa serviços de análise de uso, não mantém um histórico dos sites visitados e não vende dados. Não é necessário criar uma conta para utilizá-la.
 
-A extensão analisa o conteúdo exibido na página atual somente para identificar os termos configurados pelo próprio usuário.
+Consulte a [Política de Privacidade / Privacy Policy](PRIVACY.md) para conhecer os dados processados, as permissões utilizadas e as opções de exclusão.
 
-O TopicBlock:
+## Sobre o projeto e contato
 
-* não monitora o histórico de navegação;
-* não cria perfis de navegação;
-* não vende dados dos usuários.
+O TopicBlock é um projeto pessoal e gratuito.
 
-## Uso corporativo e customizações
-
-O TopicBlock também pode ser adaptado para empresas, instituições de ensino e outros ambientes que desejem reduzir distrações durante o trabalho ou estudo — sem monitorar a atividade dos usuários.
-
-Projetos personalizados podem incluir:
-
-* listas de assuntos definidas conforme as necessidades da organização;
-* grupos e regras de filtragem específicos;
-* configuração dos sites nos quais o filtro deve ou não atuar;
-* identidade visual personalizada;
-* recursos adicionais para implantação e administração corporativa.
-
-A extensão TopicBlock continuará gratuita.
-
-Empresas interessadas em customizações específicas ou parcerias podem entrar em contato:
-
-*Contato:* [topicblockapp@gmail.com](mailto:topicblockapp@gmail.com)
+Para dúvidas, sugestões ou relato de problemas: [topicblockapp@gmail.com](mailto:topicblockapp@gmail.com).
 
 ## Como usar
 
@@ -184,15 +166,17 @@ Após realizar alterações no código, volte à página de extensões e clique 
 
 ## Testes
 
-Os testes permanentes de correspondência de palavras, migração de configurações, sites ignorados e traduções podem ser executados com:
+Os testes automatizados cobrem correspondência de palavras, configurações, sites ignorados, traduções, conteúdo dinâmico, atualização das regras e estatísticas. Execute:
 
 ```bash
 node --test
 ```
 
-## Status do projeto
+A pasta `tests` faz parte do repositório de desenvolvimento e não é necessária no pacote distribuído aos usuários.
 
-O TopicBlock 0.6.0 está em desenvolvimento ativo e em fase de testes.
+## Versão e compatibilidade
+
+Versão atual: **0.6.0**, para Google Chrome (Manifest V3).
 
 O comportamento pode variar entre sites, pois cada portal utiliza uma estrutura HTML diferente e alguns recriam seus conteúdos dinamicamente após o carregamento da página.
 
