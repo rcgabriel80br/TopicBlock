@@ -50,7 +50,6 @@ let settings = mergeSettings();
 let editingGroup = null;
 let groupMessage = "";
 let currentSite = "";
-let currentTabId = null;
 
 localizeDocument();
 
@@ -116,11 +115,8 @@ async function loadCurrentSite() {
 
         if (!tab?.url) {
             currentSite = "";
-            currentTabId = null;
             return;
         }
-
-        currentTabId = tab.id ?? null;
 
         const url = new URL(tab.url);
 
@@ -129,14 +125,12 @@ async function loadCurrentSite() {
             url.protocol !== "https:"
         ) {
             currentSite = "";
-            currentTabId = null;
             return;
         }
 
         currentSite = normalizeSite(url.hostname);
     } catch {
         currentSite = "";
-        currentTabId = null;
     }
 }
 
@@ -958,12 +952,6 @@ ignoreCurrentSiteButton.addEventListener(
 
         await saveSettings();
         renderIgnoredSites();
-
-        if (currentTabId !== null) {
-            await chrome.tabs.reload(
-                currentTabId
-            );
-        }
     }
 );
 

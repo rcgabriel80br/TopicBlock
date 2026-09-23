@@ -115,7 +115,7 @@ function updateBlockedEntries(groups) {
 
                 // Add active hibernated entries.
                 if (
-                    item.text &&
+                    item && item.text &&
                     item.expires
                 ) {
                     const expiration =
@@ -136,49 +136,103 @@ function updateBlockedEntries(groups) {
         }
     );
 }
-async function loadFilterSettings() {
-    try {
-        const data =
-            await chrome.storage.local.get(
-                "topicblock_settings"
-            );
-        if (data.topicblock_settings) {
-            const settings =
-                data.topicblock_settings;
-            DEBUG_ENABLED = Boolean(
-                settings.debug
-            );
-            SHOW_BLOCK_REASON =
-                settings.showBlockReason !== false;
-            if (settings.groups) {
-                updateBlockedEntries(
-                    settings.groups
-                );
-            }
-            if (
-                typeof settings.enabled === "boolean"
-            ) {
-                TOPICBLOCK_ENABLED =
-                    settings.enabled;
-            }
-            if (settings.debug) {
-                debugLog(
-                    "Unfiltered page:",
-                    SHOW_UNFILTERED_PAGE
-                );
-            }
-            if (Array.isArray(settings.ignoredSites)) {
-                IGNORED_SITES =
-                    settings.ignoredSites;
-            }
-        }
-    } catch (error) {
-        console.error(
-            "[TopicBlock] Failed to load settings:",
-            error
-        );
+let filterSettings = {};
+let filterSignature = null;
+let settingsRevision = 0;
+let expirationTimer = null;
+
+function applyFilterSettings(settings = {}, refresh = true) {
+    filterSettings = settings;
+    const signature = JSON.stringify([
+        settings.enabled !== false,
+        settings.groups || {},
+        settings.ignoredSites || []
+    ]);
+    const rulesChanged = signature !== filterSignature;
+    filterSignature = signature;
+    DEBUG_ENABLED = Boolean(settings.debug);
+    TOPICBLOCK_ENABLED = settings.enabled !== false;
+    IGNORED_SITES = settings.ignoredSites || [];
+    updateBlockedEntries(settings.groups || {});
+    updateBlockReasonVisibility(settings.showBlockReason !== false);
+    scheduleExpiration();
+    if (refresh && rulesChanged) {
+        refreshPageFilters();
     }
 }
+
+function scheduleExpiration() {
+    clearTimeout(expirationTimer);
+    const now = Date.now();
+    const expirations = Object.values(filterSettings.groups || {})
+        .filter(group => group.enabled)
+        .flatMap(group => group.words || [])
+        .filter(item => item && typeof item === "object")
+        .map(item => new Date(item.expires).getTime())
+        .filter(time => time > now);
+    if (!expirations.length) return;
+    // Browser timers have a signed 32-bit delay limit (less than 30 days).
+    expirationTimer = setTimeout(() => {
+        updateBlockedEntries(filterSettings.groups || {});
+        refreshPageFilters();
+        scheduleExpiration();
+    }, Math.min(Math.min(...expirations) - now, 2147483647));
+}
+
+async function loadFilterSettings() {
+    const revision = settingsRevision;
+    try {
+        const data = await chrome.storage.local.get("topicblock_settings");
+        // A storage event may arrive while this initial read is pending.
+        if (revision === settingsRevision) {
+            applyFilterSettings(data.topicblock_settings || {}, false);
+        }
+    } catch (error) {
+        console.error("[TopicBlock] Failed to load settings:", error);
+    }
+}
+
+function restoreTopic(element, manuallyRevealed = false) {
+    if (!element._topicblockOriginalNodes) return;
+    element._topicblockGuardObserver?.disconnect();
+    delete element._topicblockGuardObserver;
+    delete element.dataset.topicblockLocked;
+    element.replaceChildren(...element._topicblockOriginalNodes);
+    element.classList.remove("topicblock-blocked");
+    delete element.dataset.topicblockHidden;
+    for (const [attribute, value] of [
+        ["style", element._topicblockOriginalStyle],
+        ["title", element._topicblockOriginalTitle]
+    ]) {
+        if (value === null) element.removeAttribute(attribute);
+        else element.setAttribute(attribute, value);
+    }
+    if (manuallyRevealed) {
+        element.dataset.topicblockExcluded = "1";
+    }
+    // Keep the counted marker so toggling rules cannot inflate statistics.
+    delete element._topicblockOriginalNodes;
+    delete element._topicblockOriginalStyle;
+    delete element._topicblockOriginalTitle;
+}
+
+function refreshPageFilters() {
+    window.topicBlockUpdating = true;
+    try {
+        document.querySelectorAll("[data-topicblock-hidden='1']")
+            .forEach(element => restoreTopic(element));
+        scanPage();
+    } finally {
+        window.topicBlockUpdating = false;
+    }
+}
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== "local" || !changes.topicblock_settings) return;
+    settingsRevision++;
+    applyFilterSettings(changes.topicblock_settings.newValue || {});
+});
+
 function findBlockedWord(text) {
     const match =
         globalThis.TopicBlockMatcher
@@ -229,12 +283,12 @@ function hideTopic(element, match) {
     let label = null;
 
     try {
-        element._topicblockOriginalHTML =
-            element.innerHTML;
-        element._topicblockOriginalStyle =
-            element.getAttribute("style") || "";
+        // Retain the actual nodes, including site event listeners and form state.
+        element._topicblockOriginalNodes = Array.from(element.childNodes);
+        element._topicblockOriginalStyle = element.getAttribute("style");
+        element._topicblockOriginalTitle = element.getAttribute("title");
         element.dataset.topicblockLocked = "1";
-        element.innerHTML = "";
+        element.replaceChildren();
         element.dataset.topicblockHidden = "1";
         element.classList.add(
             "topicblock-blocked"
@@ -315,52 +369,8 @@ function hideTopic(element, match) {
         showLink.style.color = "#888";
         showLink.onclick = (event) => {
             event.stopPropagation();
-            element.dataset.topicblockExcluded = "1";
-
-            if (!element._topicblockOriginalHTML) {
-                console.warn(
-                    "[TopicBlock] Original content was not found."
-                );
-                return;
-            }
-
-            element._topicblockGuardObserver?.disconnect();
-            delete element._topicblockGuardObserver;
-            delete element.dataset.topicblockLocked;
-
-            // Restore the original HTML.
-            element.replaceChildren();
-            const temp =
-                document.createElement("div");
-            temp.innerHTML =
-                element._topicblockOriginalHTML;
-            while (temp.firstChild) {
-                element.appendChild(
-                    temp.firstChild
-                );
-            }
-            element.querySelectorAll("*").forEach(child => {
-                child.dataset.topicblockExcluded = "1";
-            });
-            // Remove TopicBlock markers.
-            delete element.dataset.topicblockHidden;
-            element.classList.remove(
-                "topicblock-blocked"
-            );
-            if (element._topicblockOriginalStyle) {
-                element.setAttribute(
-                    "style",
-                    element._topicblockOriginalStyle
-                );
-            } else {
-                element.removeAttribute(
-                    "style"
-                );
-            }
-            // Release stored content after restoration.
-            delete element._topicblockOriginalHTML;
-            delete element._topicblockOriginalStyle;
-            delete element.dataset.topicblockCounted;
+            event.preventDefault();
+            restoreTopic(element, true);
         };
         showLink.onmouseenter = () => {
             showLink.style.textDecoration = "underline";
@@ -669,6 +679,7 @@ chrome.runtime.onMessage.addListener(
         ) {
             TOPICBLOCK_ENABLED =
                 message.enabled;
+            refreshPageFilters();
             debugLog(
                 "Status updated:",
                 TOPICBLOCK_ENABLED
@@ -679,6 +690,7 @@ chrome.runtime.onMessage.addListener(
         ) {
             SHOW_UNFILTERED_PAGE =
                 message.showUnfilteredPage;
+            refreshPageFilters();
             debugLog(
                 "Unfiltered page:",
                 SHOW_UNFILTERED_PAGE

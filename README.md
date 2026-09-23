@@ -75,7 +75,7 @@ Um assunto pode ser bloqueado temporariamente por 7, 15 ou 30 dias.
 
 Esse recurso é útil para notícias e temas que dominam o noticiário durante determinado período, mas que não precisam ser bloqueados permanentemente.
 
-Após o prazo escolhido, o assunto deixa de ser bloqueado automaticamente.
+Após o prazo escolhido, o assunto deixa de ser bloqueado automaticamente. Isso também vale para páginas que continuam abertas.
 
 ### Sites ignorados
 
@@ -158,6 +158,8 @@ Empresas interessadas em customizações específicas ou parcerias podem entrar 
 6. Utilize a hibernação para assuntos temporários.
 7. Cadastre sites que não devem ser filtrados.
 8. Navegue normalmente pelos seus portais preferidos.
+
+As alterações de palavras, grupos, hibernação, sites ignorados e ativação do filtro são aplicadas às páginas já abertas, sem recarregá-las. Conteúdos que deixarem de corresponder às regras são restaurados. Conteúdos revelados manualmente continuam visíveis naquela página.
 
 ## Instalação para desenvolvimento
 
